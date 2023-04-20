@@ -4,7 +4,7 @@ using GestaoEscolar.Models;
 
 namespace GestaoEscolar.Controllers;
 
-public class HomeController : Controller
+public class DiretorController : Controller
 {
     
     public IActionResult Index()
