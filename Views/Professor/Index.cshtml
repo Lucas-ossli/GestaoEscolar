@@ -13,6 +13,7 @@
     
     <table class="table table-bordered">
         <tr>
+            <td>Matéria</td>
             <td>Turma</td>
             <td>Qtd Alunos</td>
             <td>Chamada</td>
@@ -24,9 +25,10 @@
                 foreach(var item in Model)
                 {
                     <tr>
-                        <td>@item.Nome</td>
+                        <td>@item.NomeDaDisciplina</td>
+                        <td>@item.NomeDaTurma</td>
                         <td>@item.QtdAlunos</td>
-                        <td><a class="btn btn-primary" href="/Professor/Chamada/@item.CdTurma">Chamada</a></td>
+                        <td><a class="btn btn-primary" href="/Professor/Chamada/@item.CdTurma/@item.CdDisciplina">Chamada</a></td>
                         <td><a class="btn btn-primary" href="#">Notas</a></td>
                         <td><a class="btn btn-primary" href="#">Alunos</a></td>
                     </tr>
