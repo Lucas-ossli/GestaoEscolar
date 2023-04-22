@@ -16,11 +16,11 @@ public class Turma
         var sql = "select  "
         +"di.nomeDisciplina, "
         +"tu.Nome, "
-        +"tu.TurmaId, "
+        +"tu.idTurma, "
         +"di.idDisciplina" 
-        + "from Disciplinas di, ProfessorTurma Pt "
-        + "inner join Turma tu on tu.TurmaId = Pt.TurmaId "
-        + "where di.professorId = @CdProfessor and pt.ProfessorId = @CdProfessor ";
+        + "from Disciplinas di, TurmaProfessor Tp "
+        + "inner join Turma tu on tu.idTurma = Tp.TurmaId "
+        + "where di.professorId = @CdProfessor and Tp.ProfessorId = @CdProfessor ";
         
         /*
         using(var cn = new SqlConnection(_conn))
@@ -48,7 +48,7 @@ public class Turma
         */
 
         var sql2Count = "select count(*) as QuantidadeAluno from Aproveitamentos Ap "
-        +"where Ap.TurmaId = @CdTurma and disciplinaId = @CdDisciplina";
+        +"where Ap.TurmaId = @CdTurma and Ap.disciplinaId = @CdDisciplina";
         List<int> qtdAlunos = new List<int>();
         foreach(var item in turmas){
             /*
