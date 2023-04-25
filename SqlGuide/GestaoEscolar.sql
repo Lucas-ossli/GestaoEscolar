@@ -1,6 +1,6 @@
----------------- Criação do banco de dados ----------------
-drop database GerenciamentoEscolarBD
-go
+---------------- Criaï¿½ï¿½o do banco de dados ----------------
+--drop database GerenciamentoEscolarBD
+--go
 
 create database GerenciamentoEscolarBD
 go
@@ -8,7 +8,7 @@ go
 use GerenciamentoEscolarBD
 go
 
-------------------- Criação das tabelas -------------------
+------------------- Criaï¿½ï¿½o das tabelas -------------------
 -- Cargos
 create table Cargos
 (
@@ -17,13 +17,12 @@ create table Cargos
 )
 go
 
---//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//
 insert into Cargos (cargo) values('Diretor') --1
 insert into Cargos (cargo) values('Professor') -- 2
 insert into Cargos (cargo) values('Aluno') -- 3
 
 select * from Cargos
---//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//
+go
 
 -- Pessoas
 create table Pessoas
@@ -37,10 +36,9 @@ create table Pessoas
 )                                                         
 go
 
---//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//
 insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('H.Dezani', '12345678910-12', GETDATE(), 2)	
 insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('Djalma', '43215678910-12', GETDATE(), 2)	
-insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('Valéria', '09875678910-12', GETDATE(), 2)	
+insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('Valeria', '09875678910-12', GETDATE(), 2)	
 
 insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('Lucas', '09126542112-12', GETDATE(), 3)	
 insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('Leonardo', '09115978910-12', GETDATE(), 3)	
@@ -48,8 +46,7 @@ insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('Pedro', '654234
 insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('Jean', '65428412653-12', GETDATE(), 3)	
 
 select pf.idPessoa, Pf.nome, ca.cargo from Pessoas Pf inner join Cargos ca on ca.idCargo = Pf.cargoId
-
---//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//
+go
 
 
 -- Cadastros
@@ -66,117 +63,142 @@ create table Disciplinas
 (
 	idDisciplina	 int		  primary key identity,
 	nomeDisciplina	 varchar(50)  not null,
-	cargaHoraria	 int		  not null check(cargaHoraria in(40,80)),
-	professorId		 int		  not null references Pessoas(idPessoa)
+	cargaHoraria	 int		  not null check(cargaHoraria in(40,80))
+	--professorId		 int		  not null references Pessoas(idPessoa) -- TODO - irei colocar o id do professor na tabela TurmaProfessor
 )
+
+insert into Disciplinas (nomeDisciplina, cargaHoraria) values ('Programaï¿½ï¿½o Orientada a Objetos', 80)
+insert into Disciplinas (nomeDisciplina, cargaHoraria) values ('Engenharia de Software', 80)
+insert into Disciplinas (nomeDisciplina, cargaHoraria) values ('Algoritmo e Lï¿½gica de Programaï¿½ï¿½o', 80)
+insert into Disciplinas (nomeDisciplina, cargaHoraria) values ('Banco de Dados', 80)
+
+select * from Disciplinas Di
 go
---//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//
-
-insert into Disciplinas (nomeDisciplina, cargaHoraria, professorId) values ('Programação Orientada a Objetos', 80, 1)
-insert into Disciplinas (nomeDisciplina, cargaHoraria, professorId) values ('Engenharia de Software', 80, 2)
-insert into Disciplinas (nomeDisciplina, cargaHoraria, professorId) values ('Algoritmo e Lógica de Programação', 80, 3)
-
-select di.idDisciplina, Di.nomeDisciplina, di.cargaHoraria, pf.nome as 'Professor' from Disciplinas Di inner join Pessoas Pf on Pf.idPessoa = di.professorId
-
---//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//
-
 
 -- Turma
---TODO Avaliar se sera necessário
+--TODO Avaliar se sera necessï¿½rio
 create table Turma
 (
-	idTurma			 int		  primary key identity,
-	Nome		varchar(max)	not null
+	idTurma			 int		  	primary key identity,
+	Turma			 varchar(max)	not null
 )
---Trocar o Nome para Nome Turma
 
 --delete turma
 --drop table Turma
 
 
-insert into Turma values('4-a')
-insert into Turma values('4-b')
+insert into Turma values('1-a')
 insert into Turma values('2-b')
+insert into Turma values('3-c')
+insert into Turma values('4-d')
 
---//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//
+select * from turma
+go
 
 --ProfessorTurma
 create table TurmaProfessor
 (
 	idTurmaProfessor	int		    primary key identity,
-	TurmaId				int				not null	references Turma(idTurma),
-	ProfessorId			int					null	references Pessoas(idPessoa)
+	TurmaId				int				not null 	references Turma(idTurma),
+	ProfessorId			int				not	null 	references Pessoas(idPessoa),
+	DisciplinaId		int				not null	references Disciplinas(idDisciplina),
+	--primary key(TurmaId, ProfessorId)
 )
+--delete TurmaProfessor
+--drop table TurmaProfessor
 
-insert into TurmaProfessor values(1, 1) -- 4-a , Dezani
-insert into TurmaProfessor values(2, 1)	-- 4-b , Dezani
-insert into TurmaProfessor values(2, 2)	-- 4-b , Djlama
+insert into TurmaProfessor(TurmaId, ProfessorId, DisciplinaId) values(1, 3, 1)	-- 1 , ValÃ©ria - POO
+insert into TurmaProfessor(TurmaId, ProfessorId, DisciplinaId) values(2, 3, 3)	-- 2 , ValÃ©ria - LP
+insert into TurmaProfessor(TurmaId, ProfessorId, DisciplinaId) values(3, 3, 4)  -- 3 , ValÃ©ria - BD
+insert into TurmaProfessor(TurmaId, ProfessorId, DisciplinaId) values(1, 3, 4)  -- 1 , ValÃ©ria - BD
+insert into TurmaProfessor(TurmaId, ProfessorId, DisciplinaId) values(4, 2, 2)  -- 4 , djalma - ES
+insert into TurmaProfessor(TurmaId, ProfessorId, DisciplinaId) values(1, 3, 3)  -- 1 , ValÃ©ria - LP
 
-
---//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//
-
-
+select * from TurmaProfessor
+go
 
 
 -- Aproveitamentos
 create table Aproveitamentos
 (
-	disciplinaId	int				not null	references Disciplinas(idDisciplina),
+	--disciplinaId	int				not null	references Disciplinas(idDisciplina),
+	turmaProfessorId			int				not null	references TurmaProfessor(idTurmaProfessor), --TODO Melhorar isso 
 	alunoId			int				not null	references Pessoas(idPessoa),
 	ano				int				not null,
 	bimestre		int				not null,
 	nota			decimal(10,2)		null	default 0	check (nota between 0.0 and 10.0),
 	faltas			int					null	default 0,
-	TurmaId			int				not null	references Turma(idTurma), --TODO Melhorar isso 
 	Ativo			int				not null check(Ativo < 3), --1 ativo, 2 Inativo
-	primary key (disciplinaId, alunoId, ano, bimestre)
+	--primary key (disciplinaId, alunoId, ano, bimestre, TurmaId)
 )
 go
 
 --delete Aproveitamentos
 --drop table Aproveitamentos
 --go
+select * from TurmaProfessor
+select * from Disciplinas
+--iNSERT LÃ³gica de ProgramaÃ§Ã£o Turmas 1-a - professora ValÃ©ria
+insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(4, 2023, 1, 10, 12,6, 1)
+insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(5, 2023, 1, 10, 12,6, 1)
+insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(6, 2023, 1, 10, 12,6, 1)
+insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(7, 2023, 1, 10, 12,6, 1)
 
-insert into Aproveitamentos (disciplinaId, alunoId, ano, bimestre, nota, faltas, TurmaId, Ativo) values(1,5, 2023, 1, 10, 12,1, 1)
-insert into Aproveitamentos (disciplinaId, alunoId, ano, bimestre, nota, faltas, TurmaId, Ativo) values(1,6, 2023, 1, 10, 12,1, 1)
-insert into Aproveitamentos (disciplinaId, alunoId, ano, bimestre, nota, faltas, TurmaId, Ativo) values(1,7, 2023, 1, 10, 12,1, 1)
 
-insert into Aproveitamentos (disciplinaId, alunoId, ano, bimestre, nota, faltas, TurmaId, Ativo) values(2,5, 2023, 1, 10, 12,2, 1)
-insert into Aproveitamentos (disciplinaId, alunoId, ano, bimestre, nota, faltas, TurmaId, Ativo) values(2,6, 2023, 1, 10, 12,2, 1)
-insert into Aproveitamentos (disciplinaId, alunoId, ano, bimestre, nota, faltas, TurmaId, Ativo) values(2,7, 2023, 1, 10, 12,2, 1)
+--iNSERT BD Turmas 1-a - professora ValÃ©ria
+insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(4, 2023, 1, 10, 12,4, 1)
+insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(5, 2023, 1, 10, 12,4, 1)
+insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(6, 2023, 1, 10, 12,4, 1)
+
+--iNSERT LP Turmas 2-b - professora ValÃ©ria
+insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(4, 2023, 1, 10, 12,2, 1)
+insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(5, 2023, 1, 10, 12,2, 1)
+insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(6, 2023, 1, 10, 12,2, 1)
+
+
+--iNSERT BD Turmas 3-c - professora ValÃ©ria
+insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(4, 2023, 1, 10, 12,3, 1)
+insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(5, 2023, 1, 10, 12,3, 1)
+insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(6, 2023, 1, 10, 12,3, 1)
+
 
 select * from Aproveitamentos
---//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//
 
 
 
+--SELECT DO INDEX /VIEWS/PROFESSOR/INDEX.CSHTML   (Selecionar as turmas para um professor especï¿½fico)
 
-
---SELECT DO INDEX /VIEWS/PROFESSOR/INDEX.CSHTML   (Selecionar as turmas para um professor específico)
-
---//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//
-
+-- 
 declare @CdProfessor as int 
-set @CdProfessor = 1
+set @CdProfessor = 3
+select  tp.idTurmaProfessor,
+		di.nomeDisciplina,
+		tu.Turma
+		--tu.idTurma,
+		--di.idDisciplina
+from TurmaProfessor  tp 
+inner join Disciplinas di on di.idDisciplina = tp.DisciplinaId
+inner join Turma tu on tu.idTurma = tp.TurmaId 
+where tp.ProfessorId = @CdProfessor 
+order by nomeDisciplina
+--
 
-select  di.nomeDisciplina, tu.Nome, tu.idTurma, di.idDisciplina 
-from Disciplinas di, TurmaProfessor Tp
-inner join Turma tu on tu.idTurma = Tp.TurmaId
-where di.professorId = @CdProfessor and Tp.ProfessorId = @CdProfessor
+select * from TurmaProfessor --where ProfessorId = 3
+order by ProfessorId
 
-
-declare @CdTurma as int 
-set @CdTurma = 1
-declare @CdDisciplina as int 
-set @CdDisciplina = 1
---para cada TurmaId e idDisciplina:
-select count(*) as QuantidadeAluno from Aproveitamentos Ap 
-where Ap.TurmaId = @CdTurma and Ap.disciplinaId = @CdDisciplina
+select * from Disciplinas
+select * from TurmaProfessor
 
 
 
-select TurmaId as 'Todas as Turmas do Professor' from TurmaProfessor PT where PT.ProfessorId = @CdProfessor 
---FOREACHE TURMAID DO:
+-- Quantidade de alunos na turma 
+declare @CdTurmaProf as int 
+set @CdTurmaProf = 6
+
+--para cada TurmaProfessorId:
+select count(*) as QuantidadeAluno from Aproveitamentos Ap where Ap.turmaProfessorId = @CdTurmaProf
+go
+--
 
 --//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//
 

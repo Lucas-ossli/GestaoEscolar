@@ -7,20 +7,22 @@ public class Turma
     public int CdTurma { get; set; }
     public int CdDisciplina { get; set; }
     public int CdProfessor { get; set; }
+    public int CdTurmaProfessor { get; set; }
 
 
     public List<Turma> Search(int cdProfessor)
     {
          var turmas = new List<Turma>();
         //select do nome e numero da turma do professor 
-        var sql = "select  "
-        +"di.nomeDisciplina, "
-        +"tu.Nome, "
-        +"tu.idTurma, "
-        +"di.idDisciplina" 
-        + "from Disciplinas di, TurmaProfessor Tp "
-        + "inner join Turma tu on tu.idTurma = Tp.TurmaId "
-        + "where di.professorId = @CdProfessor and Tp.ProfessorId = @CdProfessor ";
+        var sql = @"select  
+                    tp.idTurmaProfessor,
+                    di.nomeDisciplina,
+                    tu.Turma
+                    from TurmaProfessor  tp 
+                    inner join Disciplinas di on di.idDisciplina = tp.DisciplinaId
+                    inner join Turma tu on tu.idTurma = tp.TurmaId 
+                    where tp.ProfessorId = @CdProfessor 
+                    order by nomeDisciplina";
         
         /*
         using(var cn = new SqlConnection(_conn))
@@ -37,8 +39,7 @@ public class Turma
                             turmas.Add(new Turma(){
                                 NomeDaDisciplina = dr["nomeDisciplina"].ToString(),
                                 NomeDaTurma = dr["Nome"].ToString(),
-                                CdTurma = Convert.ToInt32(dr["TurmaId"]),
-                                CdDisciplina = Convert.ToInt32(dr["idDisciplina"])
+                                CdTurmaProfessor = Convert.ToInt32(dr["idTurmaProfessor"])
                             });
                         }
                     }
@@ -47,24 +48,21 @@ public class Turma
         }
         */
 
-        var sql2Count = "select count(*) as QuantidadeAluno from Aproveitamentos Ap "
-        +"where Ap.TurmaId = @CdTurma and Ap.disciplinaId = @CdDisciplina";
+        
+        var sql2Count = @"select count(*) as QuantidadeAluno 
+                        from Aproveitamentos Ap 
+                        where Ap.turmaProfessorId = @CdTurmaProf";
         List<int> qtdAlunos = new List<int>();
         foreach(var item in turmas){
             /*
-            
-
             using(var cmd EntityCommand(sql2Count, conn))
             {
                 cmd.Parameters.Add(new EntityParameter(){
-                ParameterName = "@CdTurma",
-                value = item.CdTurma
+                ParameterName = "@CdTurmaProf",
+                value = item.CdTurmaProfessor
                 });
 
-                cmd.Parameters.Add(new EntityParameter(){
-                    ParameterName = "@CdDisciplina",
-                    value = item.CdDisciplina
-                });
+                
 
                 using (DbDataReader rdr = cmd.ExecuteReader(CommandBehavior.SequentialAccess))
                 {
