@@ -86,7 +86,6 @@ create table Turma
 --delete turma
 --drop table Turma
 
-
 insert into Turma values('1-a')
 insert into Turma values('2-b')
 insert into Turma values('3-c')
@@ -94,6 +93,7 @@ insert into Turma values('4-d')
 
 select * from turma
 go
+
 
 --ProfessorTurma
 create table TurmaProfessor
@@ -118,6 +118,40 @@ select * from TurmaProfessor
 go
 
 
+---//---//---//---//---//---//---//---//---//---//---//---//---//---//---//---//
+create table aula 
+(
+	idAula int primary key identity,
+	TurmaProfessorId		int				not null	references TurmaProfessor(idTurmaProfessor),
+	descricao	varchar(max),
+	dataAula	date	not null
+)
+go			
+													--ano / mes / dia
+insert into aula values(6,'Apresentação ',CONVERT(date, '2023-05-15'))
+go
+
+select * from aula
+--drop table aula
+create table chamada
+(
+	idChamada int primary key identity,
+	aulaId		int				not null	references aula(idAula),
+	alunoId			int				not null	references Pessoas(idPessoa),
+	presenca1		bit default 0,
+	presenca2		bit default 0,
+	presenca3		bit default 0,
+	presenca4		bit default 0,
+)
+--drop table chamada
+select * from Pessoas
+select * from chamada
+
+insert into chamada(aulaId, alunoId,presenca1)values(1,4,1)
+
+---//---//---//---//---//---//---//---//---//---//---//---//---//---//---//---//---//---//
+
+
 -- Aproveitamentos
 create table Aproveitamentos
 (
@@ -132,6 +166,7 @@ create table Aproveitamentos
 	--primary key (disciplinaId, alunoId, ano, bimestre, TurmaId)
 )
 go
+
 
 --delete Aproveitamentos
 --drop table Aproveitamentos
@@ -163,42 +198,4 @@ insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfesso
 
 
 select * from Aproveitamentos
-
-
-
---SELECT DO INDEX /VIEWS/PROFESSOR/INDEX.CSHTML   (Selecionar as turmas para um professor espec�fico)
-
--- 
-declare @CdProfessor as int 
-set @CdProfessor = 3
-select  tp.idTurmaProfessor,
-		di.nomeDisciplina,
-		tu.Turma
-		--tu.idTurma,
-		--di.idDisciplina
-from TurmaProfessor  tp 
-inner join Disciplinas di on di.idDisciplina = tp.DisciplinaId
-inner join Turma tu on tu.idTurma = tp.TurmaId 
-where tp.ProfessorId = @CdProfessor 
-order by nomeDisciplina
---
-
-select * from TurmaProfessor --where ProfessorId = 3
-order by ProfessorId
-
-select * from Disciplinas
-select * from TurmaProfessor
-
-
-
--- Quantidade de alunos na turma 
-declare @CdTurmaProf as int 
-set @CdTurmaProf = 6
-
---para cada TurmaProfessorId:
-select count(*) as QuantidadeAluno from Aproveitamentos Ap where Ap.turmaProfessorId = @CdTurmaProf
 go
---
-
---//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//--//
-
