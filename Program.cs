@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-
+using SqlGuide.Interface;
+using SqlGuide.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 //var str = builder.Configuration.GetConnectionString("DbConnection");
-
+builder.Services.AddTransient<ITurmaRepository, TurmaRepository>();
+builder.Services.AddTransient<IAulaRepository, AulaRepository>();
+builder.Services.AddTransient<IChamadaRepository, ChamadaRepository>();
+builder.Services.AddTransient<IPessoaRepository, PessoaRepository>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

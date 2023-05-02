@@ -1,15 +1,31 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using GestaoEscolar.Models;
+using SqlGuide.Interface;
 
 namespace GestaoEscolar.Controllers;
 
 public class DiretorController : Controller
 {
-    
-    public IActionResult Index()
+    private readonly IPessoaRepository _pessoaRepository;
+
+    public DiretorController(IPessoaRepository pessoaRepository)
+    {
+        _pessoaRepository = pessoaRepository;
+    }    
+
+    public IActionResult CadastroPessoa()
     {
         return View();
     }
+
+    [HttpPost]
+    public IActionResult CadastroPessoa(Pessoa professor)
+    {
+        _pessoaRepository.Insert(professor);
+        return View();
+    }
+
+    
    
 }

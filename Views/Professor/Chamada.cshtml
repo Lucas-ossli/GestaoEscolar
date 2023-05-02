@@ -14,7 +14,7 @@
 <div class="container">
     <form method="POST" >
         <table class="table table-bordered">
-            <h2>Chamada referente ao dia: <b>  </b></h2>
+            <h2>Chamada referente ao dia: @Model.First().Data <b>  </b></h2>
             <tr>
                 <td><b>Aluno</b></td>
                 <td><b>Presença 1</b></td>
@@ -27,11 +27,11 @@
                      foreach(var item in Model)
                     {
                         <tr>
-                            <td>@item.Aluno</td>
-                            <td><input type="checkbox" class="form-check-input" checked="@item.Presenca1" name="Presenca1"></td>
-                            <td><input type="checkbox" class="form-check-input" checked="@item.Presenca2" name="Presenca2"></td>
-                            <td><input type="checkbox" class="form-check-input" checked="@item.Presenca3" name="Presenca3"></td>
-                            <td><input type="checkbox" class="form-check-input" checked="@item.Presenca4" name="Presenca4"></td>
+                            <td name="Aluno">@item.Aluno</td>
+                            <td name="Presenca1"><input type="checkbox" class="form-check-input" checked="@item.Presenca1" name="Presenca1"></td>
+                            <td name="Presenca2"><input type="checkbox" class="form-check-input" checked="@item.Presenca2" name="Presenca2"></td>
+                            <td name="Presenca3"><input type="checkbox" class="form-check-input" checked="@item.Presenca3" name="Presenca3"></td>
+                            <td name="Presenca4"><input type="checkbox" class="form-check-input" checked="@item.Presenca4" name="Presenca4"></td>
                         </tr>
 
                     }

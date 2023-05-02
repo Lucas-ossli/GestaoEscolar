@@ -2,31 +2,42 @@
 using Microsoft.AspNetCore.Mvc;
 using GestaoEscolar.Models;
 using Microsoft.Data.SqlClient;
-using SqlGuide.Repository;
+using SqlGuide.Interface;
 
 namespace GestaoEscolar.Controllers;
 
 public class ProfessorController : Controller
 {
+    private readonly ITurmaRepository _turmaRepository;
+    private readonly IAulaRepository _aulaRepository;
+    private readonly IChamadaRepository _chamadaRepository;
+
+    public ProfessorController(ITurmaRepository turmaRepository,IAulaRepository aulaRepository,IChamadaRepository chamadaRepository)
+    {
+        _turmaRepository = turmaRepository;
+        _aulaRepository = aulaRepository;
+        _chamadaRepository= chamadaRepository;
+    }
+
     [HttpGet]
     //TODO - Adicionar o cdProfessor do professor que vira no Identity
     public IActionResult Turmas(int cdProfessor = 3)
     {       
-        var turmas = new TurmaRepository().Search(cdProfessor);
+        var turmas = _turmaRepository.Search(cdProfessor);
         return View(turmas);
     }
 
     [Route("Professor/Aulas/{CdAula}")]
     public IActionResult Aulas(int cdAula)
     {
-        var aulas = new AulaRepository().Search(cdAula);
+        var aulas = _aulaRepository.Search(cdAula);
         return View(aulas);
     }
     
     [Route("Professor/Chamada/{CdAula}")]
     public IActionResult Chamada(int cdAula)
     {
-        var model = new ChamadaRepository().Search(cdAula);
+        var model = _chamadaRepository.Search(cdAula);
         return View(model);
     }
 

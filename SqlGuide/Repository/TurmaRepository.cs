@@ -30,7 +30,7 @@ namespace SqlGuide.Repository
                 {
                     cmd.Parameters.Add(new SqlParameter(){
                     ParameterName = "@CdProfessor",
-                    Value = 3
+                    Value = cdProfessor
                     });
                     using(var dr = cmd.ExecuteReader())
                     {

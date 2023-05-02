@@ -1,0 +1,39 @@
+@model Pessoa
+@{
+    ViewData["Title"] = "Cadastro de pessoas";
+}
+
+@{
+    Layout= "/Views/Diretor/_Layout.cshtml";
+}
+
+
+
+<div class="container">
+
+    <h1>Cadastro de Pessoa</h1>
+    <form method="POST" class="form-group">
+        <label for="Nome">Nome:</label>
+        <input class="form-control" type="text" name="Nome">
+
+        <label for="Cpf">CPF:</label>
+        <input class="form-control" type="text" name="Cpf">
+        
+        <label for="Telefone">Telefone:</label>
+        <input class="form-control" type="text" name="Telefone">
+
+        <label for="DataNascimento">Data de Nascimento:</label>
+        <input class="form-control" type="date" name="DataNascimento">
+
+        <label for="CdCargo">Cargo:</label>
+        <select class="form-select form-select" aria-label="Default select example" name="CdCargo">
+            <option value="1">Diretor</option>
+            <option value="2">Professor</option>
+            <option value="3">Aluno</option>
+        </select><br>
+        @* <input class="btn btn-primary" type="submit" value="Enviar"> *@
+         <button class="btn btn-primary" style="margin-top: 20px">Enviar</button>
+    </form>
+
+
+</div>
