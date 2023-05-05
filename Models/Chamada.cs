@@ -1,4 +1,4 @@
-
+namespace Models;
 public class Chamada
 {
     public string Aluno {get;set;}

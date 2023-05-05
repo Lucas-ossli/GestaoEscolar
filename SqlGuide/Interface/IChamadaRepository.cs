@@ -1,9 +1,7 @@
-namespace SqlGuide.Interface
+using Models;
+namespace SqlGuide.Interface;
+
+public interface IChamadaRepository
 {
-
-    public interface IChamadaRepository
-    {
-        public List<Chamada> Search(int cdTurmaProfessor);
-
-    }
+    public List<Chamada> Search(int cdTurmaProfessor);
 }

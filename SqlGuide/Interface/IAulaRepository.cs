@@ -1,11 +1,8 @@
 using Models;
 
-namespace SqlGuide.Interface
+namespace SqlGuide.Interface;
+public interface IAulaRepository
 {
+    List<Aula> Search(int cdTurmaProfessor);
 
-    public interface IAulaRepository
-    {
-        List<Aula> Search(int cdTurmaProfessor);
-
-    }
 }

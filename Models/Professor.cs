@@ -1,4 +1,4 @@
-
+namespace Models;
 public class Professor
 {
     public int CdProfessor { get; set; }

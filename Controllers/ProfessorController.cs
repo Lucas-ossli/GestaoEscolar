@@ -8,22 +8,22 @@ namespace GestaoEscolar.Controllers;
 
 public class ProfessorController : Controller
 {
-    private readonly ITurmaRepository _turmaRepository;
+    private readonly ITurmaProfessorRepository _turmaProfessorRepository;
     private readonly IAulaRepository _aulaRepository;
     private readonly IChamadaRepository _chamadaRepository;
 
-    public ProfessorController(ITurmaRepository turmaRepository,IAulaRepository aulaRepository,IChamadaRepository chamadaRepository)
+    public ProfessorController(ITurmaProfessorRepository turmaProfessorRepository,IAulaRepository aulaRepository,IChamadaRepository chamadaRepository)
     {
-        _turmaRepository = turmaRepository;
+        _turmaProfessorRepository = turmaProfessorRepository;
         _aulaRepository = aulaRepository;
         _chamadaRepository= chamadaRepository;
     }
 
     [HttpGet]
     //TODO - Adicionar o cdProfessor do professor que vira no Identity
-    public IActionResult Turmas(int cdProfessor = 3)
+    public IActionResult TurmasProfessor(int cdProfessor = 3)
     {       
-        var turmas = _turmaRepository.Search(cdProfessor);
+        var turmas = _turmaProfessorRepository.Search(cdProfessor);
         return View(turmas);
     }
 

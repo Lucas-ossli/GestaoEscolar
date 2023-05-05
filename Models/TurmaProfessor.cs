@@ -1,5 +1,5 @@
 namespace Models;
-public class Turma
+public class TurmaProfessor
 {
     public string? NomeDaTurma { get; set; }
     public string? NomeDaDisciplina { get; set; }

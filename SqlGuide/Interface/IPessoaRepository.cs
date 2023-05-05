@@ -1,9 +1,8 @@
-namespace SqlGuide.Interface
+using Models;
+
+namespace SqlGuide.Interface;
+
+public interface IPessoaRepository
 {
-
-    public interface IPessoaRepository
-    {
-        public void Insert(Pessoa pessoa);
-
-    }
+    public void Insert(Pessoa pessoa);
 }

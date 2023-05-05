@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using GestaoEscolar.Models;
 using SqlGuide.Interface;
+using Models;
 
 namespace GestaoEscolar.Controllers;
 

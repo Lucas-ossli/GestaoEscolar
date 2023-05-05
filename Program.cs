@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 //var str = builder.Configuration.GetConnectionString("DbConnection");
-builder.Services.AddTransient<ITurmaRepository, TurmaRepository>();
+builder.Services.AddTransient<ITurmaProfessorRepository, TurmaProfessorRepository>();
 builder.Services.AddTransient<IAulaRepository, AulaRepository>();
 builder.Services.AddTransient<IChamadaRepository, ChamadaRepository>();
 builder.Services.AddTransient<IPessoaRepository, PessoaRepository>();
