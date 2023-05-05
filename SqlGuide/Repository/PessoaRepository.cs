@@ -57,4 +57,36 @@ public class PessoaRepository : IPessoaRepository
         }
 
     }
+
+    public List<Professor> SearchAllProfessores()
+    {
+        var professores = new List<Professor>();
+
+        var sql = @"select 
+                        pf.idPessoa, 
+                        pf.nome 
+                    from Pessoas pf 
+                    where cargoId = 2";
+
+        
+        using(var cn = new SqlConnection(ConnectionStr))
+        {    
+            cn.Open();
+            using(var cmd = new SqlCommand(sql, cn))
+            {
+                using (var dr = cmd.ExecuteReader())
+                {
+                    while(dr.Read())
+                    {
+                        professores.Add(new Professor(){
+                            CdProfessor = Convert.ToInt32(dr["idPessoa"]),
+                            Nome = dr["nome"].ToString()
+                        });
+                    }
+                }
+            }
+        }
+
+        return professores;
+    }
 }

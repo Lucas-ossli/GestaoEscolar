@@ -1,0 +1,25 @@
+@using Models;
+@model Disciplina
+
+@{
+    ViewData["Title"] = "Cadastro de Disciplina";
+}
+
+@{
+    Layout= "/Views/Diretor/_Layout.cshtml";
+}
+
+<div class="container">
+
+    <h1>Cadastro de Turma</h1>
+    <form method="POST" class="form-group">
+        <label for="NomeDisciplina">Nome:</label>
+        <input class="form-control" type="text" name="NomeDisciplina">
+
+        <label for="CargaHoraria">Carga Horária:</label>
+        <input class="form-control" type="number" name="CargaHoraria">
+        
+        <button class="btn btn-primary" style="margin-top: 20px">Enviar</button>
+    </form>
+    
+</div>

@@ -80,16 +80,17 @@ go
 create table Turma
 (
 	idTurma			 int		  	primary key identity,
-	Turma			 varchar(max)	not null
+	Turma			 varchar(max)	not null,
+	Descricao		 varchar(max)   null
 )
 
 --delete turma
 --drop table Turma
 
-insert into Turma values('1-a')
-insert into Turma values('2-b')
-insert into Turma values('3-c')
-insert into Turma values('4-d')
+insert into Turma(Turma) values('1-a')
+insert into Turma(Turma) values('2-b')
+insert into Turma(Turma) values('3-c')
+insert into Turma(Turma) values('4-d')
 
 select * from turma
 go

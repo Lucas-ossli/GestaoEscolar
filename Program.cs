@@ -12,6 +12,8 @@ builder.Services.AddTransient<ITurmaProfessorRepository, TurmaProfessorRepositor
 builder.Services.AddTransient<IAulaRepository, AulaRepository>();
 builder.Services.AddTransient<IChamadaRepository, ChamadaRepository>();
 builder.Services.AddTransient<IPessoaRepository, PessoaRepository>();
+builder.Services.AddTransient<ITurmaRepository, TurmaRepository>();
+builder.Services.AddTransient<IDisciplinaRepository, DisciplinaRepository>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

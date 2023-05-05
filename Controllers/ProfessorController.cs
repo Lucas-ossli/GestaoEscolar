@@ -12,7 +12,9 @@ public class ProfessorController : Controller
     private readonly IAulaRepository _aulaRepository;
     private readonly IChamadaRepository _chamadaRepository;
 
-    public ProfessorController(ITurmaProfessorRepository turmaProfessorRepository,IAulaRepository aulaRepository,IChamadaRepository chamadaRepository)
+    public ProfessorController( ITurmaProfessorRepository turmaProfessorRepository,
+                                IAulaRepository aulaRepository,
+                                IChamadaRepository chamadaRepository)
     {
         _turmaProfessorRepository = turmaProfessorRepository;
         _aulaRepository = aulaRepository;

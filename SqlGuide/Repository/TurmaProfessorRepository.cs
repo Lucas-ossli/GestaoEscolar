@@ -50,36 +50,36 @@ public class TurmaProfessorRepository : ITurmaProfessorRepository
         }
     
 
-    sql = @"select count(*) as QuantidadeAluno 
+        sql = @"select count(*) as QuantidadeAluno 
                     from Aproveitamentos Ap 
                     where Ap.turmaProfessorId = @CdTurmaProf";
 
-    List<int> qtdAlunos = new List<int>();
-    foreach(var item in turmas){
-        using(var cn = new SqlConnection(ConnectionStr))
-        {    
-            cn.Open();
-            using(var cmd = new SqlCommand(sql, cn))
-            {
-                cmd.Parameters.Add(new SqlParameter(){
-                ParameterName = "@CdTurmaProf",
-                Value = item.CdTurmaProfessor
-                });
-                using (var rdr = cmd.ExecuteReader())
+        List<int> qtdAlunos = new List<int>();
+        foreach(var item in turmas){
+            using(var cn = new SqlConnection(ConnectionStr))
+            {    
+                cn.Open();
+                using(var cmd = new SqlCommand(sql, cn))
                 {
-                    while(rdr.Read())
+                    cmd.Parameters.Add(new SqlParameter(){
+                    ParameterName = "@CdTurmaProf",
+                    Value = item.CdTurmaProfessor
+                    });
+                    using (var rdr = cmd.ExecuteReader())
                     {
-                        qtdAlunos.Add(Convert.ToInt32(rdr["QuantidadeAluno"]));
+                        while(rdr.Read())
+                        {
+                            qtdAlunos.Add(Convert.ToInt32(rdr["QuantidadeAluno"]));
+                        }
                     }
                 }
             }
         }
-    }
     
-    for(int i =0; i < turmas.Count ; i++){
-        turmas[i].QtdAlunos = qtdAlunos[i];
-    }
+        for(int i =0; i < turmas.Count ; i++){
+            turmas[i].QtdAlunos = qtdAlunos[i];
+        }
 
-    return turmas;
+        return turmas;
     }
 }

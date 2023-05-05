@@ -1,0 +1,31 @@
+@using Models;
+@model TurmaProfessor2
+
+@{
+    ViewData["Title"] = "Cadastro de Turma Professor";
+}
+
+@{
+    Layout= "/Views/Diretor/_Layout.cshtml";
+}
+
+<div class="container">
+
+    <h1>Cadastro de Turma</h1>
+    <form method="POST" class="form-group">
+        
+        <select class="form-select form-select" aria-label="Default select example" name="Professor">
+        </select><br>
+
+        <select class="form-select form-select" aria-label="Default select example" name="Turma">
+        </select><br>
+
+        <select class="form-select form-select" aria-label="Default select example" name="Disciplina">
+        </select><br>
+
+         @* <select asp-for="model.turmas" asp-items="models.Turmas.SelectList()"> *@
+         <button class="btn btn-primary" style="margin-top: 20px">Enviar</button>
+    </form>
+
+
+</div>

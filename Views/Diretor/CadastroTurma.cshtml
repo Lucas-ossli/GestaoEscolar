@@ -1,0 +1,28 @@
+@using Models;
+@model Turma
+
+@{
+    ViewData["Title"] = "Cadastro de Turma";
+}
+
+@{
+    Layout= "/Views/Diretor/_Layout.cshtml";
+}
+
+
+
+<div class="container">
+
+    <h1>Cadastro de Turma</h1>
+    <form method="POST" class="form-group">
+        <label for="NomeDaTurma">Nome:</label>
+        <input class="form-control" type="text" name="NomeDaTurma">
+
+        <label for="Descricao">Descricao:</label>
+        <input class="form-control" type="text" name="Descricao">
+        
+         <button class="btn btn-primary" style="margin-top: 20px">Enviar</button>
+    </form>
+
+
+</div>
