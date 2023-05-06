@@ -7,18 +7,18 @@ public class Turma
     public string? NomeDaTurma { get; set; }
     public string? Descricao { get; set; }
 
-    public static IEnumerable<SelectListItem>? SelectList(List<Turma> turmas)
-    {
-        var retorno = new List<SelectListItem>();
+    // public static IEnumerable<SelectListItem>? SelectList(List<Turma> turmas)
+    // {
+    //     var retorno = new List<SelectListItem>();
 
-        foreach (var item in turmas)
-        {
-            retorno.Add(new SelectListItem(){
-                Text = item.NomeDaTurma,
-                Value = item.CdTurma.ToString()
-            });
-        }
+    //     foreach (var item in turmas)
+    //     {
+    //         retorno.Add(new SelectListItem(){
+    //             Text = item.NomeDaTurma,
+    //             Value = item.CdTurma.ToString()
+    //         });
+    //     }
 
-        return retorno;
-    }
+    //     return retorno;
+    // }
 }

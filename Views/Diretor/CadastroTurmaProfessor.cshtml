@@ -14,16 +14,33 @@
     <h1>Cadastro de Turma</h1>
     <form method="POST" class="form-group">
         
-        <select class="form-select form-select" aria-label="Default select example" name="Professor">
+        <select class="form-select form-select" aria-label="Default select example" name="CdProfessor">
+            @{
+                foreach (var item in Model.Professores)
+                {
+                    <option value="@item.CdCargo">@item.Nome</option>
+                }
+            }
         </select><br>
 
-        <select class="form-select form-select" aria-label="Default select example" name="Turma">
+        <select class="form-select form-select" aria-label="Default select example" name="CdDisciplina">
+            @{
+                foreach (var item in Model.Turmas)
+                {
+                    <option value="@item.CdTurma">@item.NomeDaTurma</option>
+                }
+            }
         </select><br>
 
-        <select class="form-select form-select" aria-label="Default select example" name="Disciplina">
+        <select class="form-select form-select" aria-label="Default select example" name="CdTurma">
+            @{
+                foreach (var item in Model.Disciplinas)
+                {
+                    <option value="@item.CdDisciplina">@item.NomeDisciplina</option>
+                }
+            }
         </select><br>
 
-         @* <select asp-for="model.turmas" asp-items="models.Turmas.SelectList()"> *@
          <button class="btn btn-primary" style="margin-top: 20px">Enviar</button>
     </form>
 

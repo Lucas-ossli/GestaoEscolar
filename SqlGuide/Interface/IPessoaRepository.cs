@@ -6,5 +6,5 @@ public interface IPessoaRepository
 {
     public void Insert(Pessoa pessoa);
 
-    public List<Professor> SearchAllProfessores();
+    public List<Pessoa> SearchAllProfessores();
 }

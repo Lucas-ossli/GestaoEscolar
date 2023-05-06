@@ -99,15 +99,15 @@ go
 --ProfessorTurma
 create table TurmaProfessor
 (
-	idTurmaProfessor	int		    primary key identity,
+	idTurmaProfessor	int		        primary key identity,
 	TurmaId				int				not null 	references Turma(idTurma),
 	ProfessorId			int				not	null 	references Pessoas(idPessoa),
 	DisciplinaId		int				not null	references Disciplinas(idDisciplina),
-	--primary key(TurmaId, ProfessorId)
+	constraint unique_tp unique (TurmaId, ProfessorId, DisciplinaId)
 )
 --delete TurmaProfessor
 --drop table TurmaProfessor
-
+select * from TurmaProfessor
 insert into TurmaProfessor(TurmaId, ProfessorId, DisciplinaId) values(1, 3, 1)	-- 1 , Valéria - POO
 insert into TurmaProfessor(TurmaId, ProfessorId, DisciplinaId) values(2, 3, 3)	-- 2 , Valéria - LP
 insert into TurmaProfessor(TurmaId, ProfessorId, DisciplinaId) values(3, 3, 4)  -- 3 , Valéria - BD
@@ -115,7 +115,6 @@ insert into TurmaProfessor(TurmaId, ProfessorId, DisciplinaId) values(1, 3, 4)  
 insert into TurmaProfessor(TurmaId, ProfessorId, DisciplinaId) values(4, 2, 2)  -- 4 , djalma - ES
 insert into TurmaProfessor(TurmaId, ProfessorId, DisciplinaId) values(1, 3, 3)  -- 1 , Valéria - LP
 
-select * from TurmaProfessor
 go
 
 
@@ -145,8 +144,6 @@ create table chamada
 	presenca4		bit default 0,
 )
 --drop table chamada
-select * from Pessoas
-select * from chamada
 
 insert into chamada(aulaId, alunoId,presenca1)values(1,4,1)
 
@@ -172,8 +169,7 @@ go
 --delete Aproveitamentos
 --drop table Aproveitamentos
 --go
-select * from TurmaProfessor
-select * from Disciplinas
+
 --iNSERT Lógica de Programação Turmas 1-a - professora Valéria
 insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(4, 2023, 1, 10, 12,6, 1)
 insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(5, 2023, 1, 10, 12,6, 1)

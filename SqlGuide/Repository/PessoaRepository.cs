@@ -58,9 +58,9 @@ public class PessoaRepository : IPessoaRepository
 
     }
 
-    public List<Professor> SearchAllProfessores()
+    public List<Pessoa> SearchAllProfessores()
     {
-        var professores = new List<Professor>();
+        var professores = new List<Pessoa>();
 
         var sql = @"select 
                         pf.idPessoa, 
@@ -78,8 +78,8 @@ public class PessoaRepository : IPessoaRepository
                 {
                     while(dr.Read())
                     {
-                        professores.Add(new Professor(){
-                            CdProfessor = Convert.ToInt32(dr["idPessoa"]),
+                        professores.Add(new Pessoa(){
+                            CdCargo = Convert.ToInt32(dr["idPessoa"]),
                             Nome = dr["nome"].ToString()
                         });
                     }

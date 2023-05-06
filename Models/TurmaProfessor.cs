@@ -10,7 +10,11 @@ public class TurmaProfessor
 //TODO - JUNTAR AS DUAS CLASSES EM UMA
 public class TurmaProfessor2
 {
-    public List<Professor>? Professores {get;set;}
+    public List<Pessoa>? Professores {get;set;}
     public List<Turma>? Turmas {get;set;}
     public List<Disciplina>? Disciplinas {get;set;}
+
+    public int CdProfessor {get;set;}
+    public int CdTurma {get;set;}
+    public int CdDisciplina {get;set;}
 }

@@ -71,10 +71,10 @@ public class DiretorController : Controller
     }
 
     [HttpPost]
-    public IActionResult CadastroTurmaProfessor(Disciplina disciplina)
+    public IActionResult CadastroTurmaProfessor(TurmaProfessor2 model)
     {
-        
-        return View();
+        _turmaProfRepository.Insert(model);
+        return RedirectToAction("CadastroTurmaProfessor");
     }
 
 

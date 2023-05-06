@@ -8,6 +8,42 @@ public class TurmaProfessorRepository : ITurmaProfessorRepository
     public string ConnectionStr{
         get{return ConnectionString.ConnectionStr;}
     }
+
+    public void Insert(TurmaProfessor2 model)
+    {
+        var sql = @"insert into TurmaProfessor(TurmaId, ProfessorId, DisciplinaId) 
+                                        values(@cdTurma, @cdProfessor, @cdDisciplina)";
+
+        try
+        {
+            using(var cn = new SqlConnection(ConnectionStr))
+            {
+                cn.Open();
+                using(var cmd = new SqlCommand(sql, cn))
+                {
+                    cmd.Parameters.Add(new SqlParameter(){
+                    ParameterName = "@cdTurma",
+                    Value = model.CdTurma});
+
+                    cmd.Parameters.Add(new SqlParameter(){
+                    ParameterName = "@cdProfessor",
+                    Value = model.CdProfessor});
+
+                    cmd.Parameters.Add(new SqlParameter(){
+                    ParameterName = "@cdDisciplina",
+                    Value = model.CdDisciplina});
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {   
+            throw new Exception(ex.Message);
+        }
+        
+    }
+
     public List<TurmaProfessor> Search(int cdProfessor)
     {
         var turmas = new List<TurmaProfessor>();
@@ -82,4 +118,6 @@ public class TurmaProfessorRepository : ITurmaProfessorRepository
 
         return turmas;
     }
+
+    
 }
