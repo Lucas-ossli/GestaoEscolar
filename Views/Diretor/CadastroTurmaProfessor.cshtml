@@ -11,7 +11,7 @@
 
 <div class="container">
 
-    <h1>Cadastro de Turma</h1>
+    <h1>Vinculo de Turma/Disciplina por Professor</h1>
     <form method="POST" class="form-group">
         
         <select class="form-select form-select" aria-label="Default select example" name="CdProfessor">
@@ -43,6 +43,36 @@
 
          <button class="btn btn-primary" style="margin-top: 20px">Enviar</button>
     </form>
+
+    <br>
+    <br>
+    <table class="table table-bordered">
+        <tr>
+            <td>Professor</td>
+            <td>Turma</td>
+            <td>Disciplina</td>
+            <td>Aulas</td>
+            <td>Alunos</td>
+        </tr>
+        @{
+            if(Model.TurmaProfessores.Count > 0){
+                foreach(var item in Model.TurmaProfessores)
+                {
+                    <tr>
+                        <td>@item.NomeProfessor</td>
+                        <td>@item.NomeDaTurma</td>
+                        <td>@item.NomeDaDisciplina</td>
+                        <td><a class="btn btn-primary" href="/Professor/Aulas/@item.CdTurmaProfessor">Aulas</a></td>
+                        <td><a class="btn btn-primary" href="/Professor/Alunos/@item.CdTurmaProfessor">Alunos</a></td>
+                    
+                    </tr>
+
+                }
+            }
+            
+        }
+
+    </table>
 
 
 </div>

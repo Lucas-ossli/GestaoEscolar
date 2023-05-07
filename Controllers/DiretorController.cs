@@ -24,6 +24,10 @@ public class DiretorController : Controller
         _turmaProfRepository = turmaProfRepository;
     }    
 
+    public IActionResult Index()
+    {
+        return View();
+    }
     public IActionResult CadastroPessoa()
     {
         return View();
@@ -66,7 +70,7 @@ public class DiretorController : Controller
         model.Disciplinas = _disciplinaRepository.SearchAll();
         model.Professores = _pessoaRepository.SearchAllProfessores();
         model.Turmas = _turmaRepository.SearchAllTurmas();
-        
+        model.TurmaProfessores = _turmaProfRepository.SearchAll();
         return View(model);
     }
 
@@ -74,6 +78,14 @@ public class DiretorController : Controller
     public IActionResult CadastroTurmaProfessor(TurmaProfessor2 model)
     {
         _turmaProfRepository.Insert(model);
+        return RedirectToAction("CadastroTurmaProfessor");
+    }
+
+    [Route("Diretor/ExcluirTP/{cdTurmaProfessor}")]
+    public IActionResult ExcluirTP(int cdTurmaProfessor)
+    {
+        //TODO - TERMINAR
+        _turmaProfRepository.Delete(cdTurmaProfessor);
         return RedirectToAction("CadastroTurmaProfessor");
     }
 

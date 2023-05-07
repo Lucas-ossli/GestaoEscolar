@@ -3,11 +3,18 @@
 }
 
 @{
-    Layout= "/Views/Diretor/_Layout.cshtml";
+    Layout= "/Views/Home/_Layout.cshtml";
 }
 
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="container">
+        <h3>Rascunhos</h3>
+        </br><hr>
+        <a class="btn btn-primary" href="/Diretor/CadastroPessoa">Cadastro de Pessoa</a><br><br>
+        <a class="btn btn-primary" href="/Diretor/CadastroDisciplina">Cadastro de Disciplina</a><br><br>
+        <a class="btn btn-primary" href="/Diretor/CadastroTurma">Cadastro de Turma</a><br><br>
+        <a class="btn btn-primary" href="/Diretor/CadastroTurmaProfessor">Vincular turma/Disciplina com um Professor</a><br><br>
+    </div>
 </div>

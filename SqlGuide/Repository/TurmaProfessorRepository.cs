@@ -119,5 +119,62 @@ public class TurmaProfessorRepository : ITurmaProfessorRepository
         return turmas;
     }
 
-    
+    public List<TurmaProfessor> SearchAll()
+    {
+        var turmasProfessor = new List<TurmaProfessor>();
+
+        var sql = @"select  PF.nome, 
+                            DI.nomeDisciplina, 
+                            TU.Turma, 
+                            tp.idTurmaProfessor 
+                    from TurmaProfessor tp
+                            inner join Pessoas PF on tp.ProfessorId = PF.idPessoa
+                            inner join Disciplinas DI on tp.DisciplinaId = DI.idDisciplina
+                            inner join Turma TU on tp.TurmaId = TU.idTurma
+                    order by nome";
+                    
+        using(var cn = new SqlConnection(ConnectionStr))
+        {
+           
+            cn.Open();
+            using(var cmd = new SqlCommand(sql, cn))
+            {
+                
+                using(var dr = cmd.ExecuteReader())
+                {
+                    if(dr.HasRows)
+                    {
+                        while(dr.Read())
+                        {
+                            turmasProfessor.Add(new TurmaProfessor(){
+                                NomeProfessor = dr["nome"].ToString(),
+                                NomeDaDisciplina = dr["nomeDisciplina"].ToString(),
+                                NomeDaTurma = dr["Turma"].ToString(),
+                                CdTurmaProfessor = Convert.ToInt32(dr["idTurmaProfessor"])
+                            });
+                        }
+                    }
+                }
+            }
+            return turmasProfessor;
+        }
+    }
+
+    public void Delete(int? cdTurmaProfessor)
+    {
+        var sql = "delete from TurmaProfessor where idTurmaProfessor = @cdTurmaProfessor";
+
+        using(var cn = new SqlConnection(ConnectionStr))
+            {
+                cn.Open();
+                using(var cmd = new SqlCommand(sql, cn))
+                {
+                    cmd.Parameters.Add(new SqlParameter(){
+                    ParameterName = "@cdTurmaProfessor",
+                    Value = cdTurmaProfessor});
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+    }
 }
