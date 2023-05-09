@@ -25,10 +25,12 @@ public class ProfessorController : Controller
     }
 
     [HttpGet]
+    [Route("Professor/TurmasProfessor/{cdProfessor}/{ativo}")]
+    [Route("Professor/TurmasProfessor")]
     //TODO - Adicionar o cdProfessor do professor que vira no Identity
-    public IActionResult TurmasProfessor(int cdProfessor = 3)
+    public IActionResult TurmasProfessor(int cdProfessor = 3, bool ativo = true)
     {       
-        var turmas = _turmaProfessorRepository.Search(cdProfessor);
+        var turmas = _turmaProfessorRepository.Search(cdProfessor, ativo);
         return View(turmas);
     }
 

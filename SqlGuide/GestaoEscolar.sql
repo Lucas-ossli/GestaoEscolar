@@ -100,24 +100,26 @@ go
 create table TurmaProfessor
 (
 	idTurmaProfessor	int		        primary key identity,
+	ano					date			not null,
 	TurmaId				int				not null 	references Turma(idTurma),
 	ProfessorId			int				not	null 	references Pessoas(idPessoa),
 	DisciplinaId		int				not null	references Disciplinas(idDisciplina),
-	constraint unique_tp unique (TurmaId, ProfessorId, DisciplinaId)
+	ativo			    bit				not null --1 ativo, 0 Inativo
+	constraint unique_tp unique (TurmaId, ProfessorId, DisciplinaId, ano)
 )
 --delete TurmaProfessor
 --drop table TurmaProfessor
 select * from TurmaProfessor
-insert into TurmaProfessor(TurmaId, ProfessorId, DisciplinaId) values(1, 3, 1)	-- 1 , Valéria - POO
-insert into TurmaProfessor(TurmaId, ProfessorId, DisciplinaId) values(2, 3, 3)	-- 2 , Valéria - LP
-insert into TurmaProfessor(TurmaId, ProfessorId, DisciplinaId) values(3, 3, 4)  -- 3 , Valéria - BD
-insert into TurmaProfessor(TurmaId, ProfessorId, DisciplinaId) values(1, 3, 4)  -- 1 , Valéria - BD
-insert into TurmaProfessor(TurmaId, ProfessorId, DisciplinaId) values(4, 2, 2)  -- 4 , djalma - ES
-insert into TurmaProfessor(TurmaId, ProfessorId, DisciplinaId) values(1, 3, 3)  -- 1 , Valéria - LP
-
+insert into TurmaProfessor(ano,TurmaId, ProfessorId, DisciplinaId, ativo) values(GETDATE(),1, 3, 1, 1)	-- 1 , Valéria - POO
+insert into TurmaProfessor(ano,TurmaId, ProfessorId, DisciplinaId, ativo) values(GETDATE(),2, 3, 3, 1)	-- 2 , Valéria - LP
+insert into TurmaProfessor(ano,TurmaId, ProfessorId, DisciplinaId, ativo) values(GETDATE(),3, 3, 4, 1)  -- 3 , Valéria - BD
+insert into TurmaProfessor(ano,TurmaId, ProfessorId, DisciplinaId, ativo) values(GETDATE(),1, 3, 4, 1)  -- 1 , Valéria - BD
+insert into TurmaProfessor(ano,TurmaId, ProfessorId, DisciplinaId, ativo) values(GETDATE(),4, 2, 2, 1)  -- 4 , djalma - ES
+insert into TurmaProfessor(ano,TurmaId, ProfessorId, DisciplinaId, ativo) values(GETDATE(),1, 3, 3, 1)  -- 1 , Valéria - LP
+update TurmaProfessor set ativo = 0 where DisciplinaId = 1
 go
 
-
+select year(tu.ano) as year, * from TurmaProfessor tu
 ---//---//---//---//---//---//---//---//---//---//---//---//---//---//---//---//
 create table aula 
 (
@@ -135,8 +137,8 @@ select * from aula
 --drop table aula
 create table chamada
 (
-	idChamada int primary key identity,
-	aulaId		int				not null	references aula(idAula),
+	idChamada		int primary key identity,
+	aulaId			int				not null	references aula(idAula),
 	alunoId			int				not null	references Pessoas(idPessoa),
 	presenca1		bit default 0,
 	presenca2		bit default 0,
@@ -160,10 +162,14 @@ create table Aproveitamentos
 	bimestre		int				not null,
 	nota			decimal(10,2)		null	default 0	check (nota between 0.0 and 10.0),
 	faltas			int					null	default 0,
-	Ativo			int				not null check(Ativo < 3), --1 ativo, 2 Inativo
+	Ativo			bit				not null --1 ativo, 0 Inativo
 	--primary key (disciplinaId, alunoId, ano, bimestre, TurmaId)
 )
 go
+
+select pf.nome, pf.idPessoa from Aproveitamentos ap 
+inner join Pessoas pf on ap.alunoId = pf.idPessoa
+where ap.turmaProfessorId = 4
 
 
 --delete Aproveitamentos

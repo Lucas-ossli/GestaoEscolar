@@ -6,6 +6,7 @@ public class TurmaProfessor
     public string? NomeProfessor{get;set;}
     public int QtdAlunos { get; set; }
     public int CdTurmaProfessor { get; set; }
+    public bool Ativo{get;set;}
 }
 
 //TODO - JUNTAR AS DUAS CLASSES EM UMA
@@ -18,4 +19,6 @@ public class TurmaProfessor2
     public int CdProfessor {get;set;}
     public int CdTurma {get;set;}
     public int CdDisciplina {get;set;}
+    public DateTime Ano {get;set;} 
+    public bool Ativo{get;set;}
 }

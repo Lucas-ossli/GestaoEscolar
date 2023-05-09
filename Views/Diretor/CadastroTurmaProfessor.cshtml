@@ -41,6 +41,17 @@
             }
         </select><br>
 
+        <select class="form-select form-select" aria-label="Default select example" name="Ano">
+            @{
+                for (int i = 1980 ; i < 2101 ; i++)
+                {
+                    string year = i.ToString() + "0101";
+                    DateTime Ano = DateTime.ParseExact(year,"yyyyMMdd", null);
+                    <option value="@Ano">@i</option>
+                }
+            }
+        </select><br>
+
          <button class="btn btn-primary" style="margin-top: 20px">Enviar</button>
     </form>
 

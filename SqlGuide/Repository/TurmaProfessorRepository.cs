@@ -11,8 +11,8 @@ public class TurmaProfessorRepository : ITurmaProfessorRepository
 
     public void Insert(TurmaProfessor2 model)
     {
-        var sql = @"insert into TurmaProfessor(TurmaId, ProfessorId, DisciplinaId) 
-                                        values(@cdTurma, @cdProfessor, @cdDisciplina)";
+        var sql = @"insert into TurmaProfessor(ano, TurmaId, ProfessorId, DisciplinaId, ativo) 
+                                        values(@ano, @cdTurma, @cdProfessor, @cdDisciplina, 1)";
 
         try
         {
@@ -21,6 +21,11 @@ public class TurmaProfessorRepository : ITurmaProfessorRepository
                 cn.Open();
                 using(var cmd = new SqlCommand(sql, cn))
                 {
+                    cmd.Parameters.Add(new SqlParameter(){
+                        ParameterName = "@ano",
+                        Value = model.Ano
+                    });
+
                     cmd.Parameters.Add(new SqlParameter(){
                     ParameterName = "@cdTurma",
                     Value = model.CdTurma});
@@ -44,19 +49,25 @@ public class TurmaProfessorRepository : ITurmaProfessorRepository
         
     }
 
-    public List<TurmaProfessor> Search(int cdProfessor)
+    public List<TurmaProfessor> Search(int cdProfessor, bool ativo)
     {
         var turmas = new List<TurmaProfessor>();
         //select do nome e numero da turma do professor 
         var sql = @"select  
-                    tp.idTurmaProfessor,
-                    di.nomeDisciplina,
-                    tu.Turma
+                        tp.idTurmaProfessor,
+                        tp.ativo,
+                        di.nomeDisciplina,
+                        tu.Turma
                     from TurmaProfessor  tp 
-                    inner join Disciplinas di on di.idDisciplina = tp.DisciplinaId
-                    inner join Turma tu on tu.idTurma = tp.TurmaId 
-                    where tp.ProfessorId = @CdProfessor 
-                    order by nomeDisciplina";
+                        inner join Disciplinas di on di.idDisciplina = tp.DisciplinaId
+                        inner join Turma tu on tu.idTurma = tp.TurmaId 
+                    where tp.ProfessorId = @CdProfessor ";
+
+        if(ativo){
+            sql += "and tp.ativo = 1 ";
+        }
+
+        sql += "order by nomeDisciplina";
     
     
         using(var cn = new SqlConnection(ConnectionStr))
@@ -77,7 +88,8 @@ public class TurmaProfessorRepository : ITurmaProfessorRepository
                             turmas.Add(new TurmaProfessor(){
                                 NomeDaDisciplina = dr["nomeDisciplina"].ToString(),
                                 NomeDaTurma = dr["Turma"].ToString(),
-                                CdTurmaProfessor = Convert.ToInt32(dr["idTurmaProfessor"])
+                                CdTurmaProfessor = Convert.ToInt32(dr["idTurmaProfessor"]),
+                                Ativo = Convert.ToInt32(dr["ativo"]) == 1 ? true : false
                             });
                         }
                     }
