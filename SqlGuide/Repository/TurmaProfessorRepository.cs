@@ -57,6 +57,7 @@ public class TurmaProfessorRepository : ITurmaProfessorRepository
                         tp.idTurmaProfessor,
                         tp.ativo,
                         di.nomeDisciplina,
+                        year(tp.ano) as ano,
                         tu.Turma
                     from TurmaProfessor  tp 
                         inner join Disciplinas di on di.idDisciplina = tp.DisciplinaId
@@ -89,7 +90,8 @@ public class TurmaProfessorRepository : ITurmaProfessorRepository
                                 NomeDaDisciplina = dr["nomeDisciplina"].ToString(),
                                 NomeDaTurma = dr["Turma"].ToString(),
                                 CdTurmaProfessor = Convert.ToInt32(dr["idTurmaProfessor"]),
-                                Ativo = Convert.ToInt32(dr["ativo"]) == 1 ? true : false
+                                Ativo = Convert.ToInt32(dr["ativo"]) == 1 ? true : false,
+                                Ano = DateTime.ParseExact(dr["ano"].ToString()+"0101", "yyyyMMdd", null) 
                             });
                         }
                     }
@@ -131,27 +133,34 @@ public class TurmaProfessorRepository : ITurmaProfessorRepository
         return turmas;
     }
 
-    public List<TurmaProfessor> SearchAll()
+    public List<TurmaProfessor> SearchAll(bool ativo)
     {
         var turmasProfessor = new List<TurmaProfessor>();
 
         var sql = @"select  PF.nome, 
                             DI.nomeDisciplina, 
                             TU.Turma, 
-                            tp.idTurmaProfessor 
+                            tp.idTurmaProfessor,
+                            year(tp.ano) as ano,
+                            tp.ativo 
                     from TurmaProfessor tp
                             inner join Pessoas PF on tp.ProfessorId = PF.idPessoa
                             inner join Disciplinas DI on tp.DisciplinaId = DI.idDisciplina
-                            inner join Turma TU on tp.TurmaId = TU.idTurma
-                    order by nome";
-                    
+                            inner join Turma TU on tp.TurmaId = TU.idTurma ";
+
+        if(ativo){
+            sql+= "where tp.ativo = 1 ";
+        }
+
+        sql +="order by nome ";
+
         using(var cn = new SqlConnection(ConnectionStr))
         {
-           
+
             cn.Open();
             using(var cmd = new SqlCommand(sql, cn))
             {
-                
+
                 using(var dr = cmd.ExecuteReader())
                 {
                     if(dr.HasRows)
@@ -162,7 +171,9 @@ public class TurmaProfessorRepository : ITurmaProfessorRepository
                                 NomeProfessor = dr["nome"].ToString(),
                                 NomeDaDisciplina = dr["nomeDisciplina"].ToString(),
                                 NomeDaTurma = dr["Turma"].ToString(),
-                                CdTurmaProfessor = Convert.ToInt32(dr["idTurmaProfessor"])
+                                CdTurmaProfessor = Convert.ToInt32(dr["idTurmaProfessor"]),
+                                Ativo = Convert.ToInt32(dr["ativo"]) == 1 ? true : false,
+                                Ano = DateTime.ParseExact(dr["ano"].ToString()+"0101", "yyyyMMdd", null)
                             });
                         }
                     }
@@ -172,21 +183,52 @@ public class TurmaProfessorRepository : ITurmaProfessorRepository
         }
     }
 
-    public void Delete(int? cdTurmaProfessor)
+   public void InativarTP(int? cdTurmaProfessor)
     {
-        var sql = "delete from TurmaProfessor where idTurmaProfessor = @cdTurmaProfessor";
+        // TODO -  CRIAR UMA PROCEDURE 
+        var sql = @"update TurmaProfessor set ativo = 0 where idTurmaProfessor = @cdTurmaProfessor 
+                     
+                    update Aproveitamentos set Ativo = 0 where turmaProfessorId =  @cdTurmaProfessor";
 
         using(var cn = new SqlConnection(ConnectionStr))
+        {
+            cn.Open();
+            using(var cmd = new SqlCommand(sql, cn))
             {
-                cn.Open();
-                using(var cmd = new SqlCommand(sql, cn))
-                {
-                    cmd.Parameters.Add(new SqlParameter(){
-                    ParameterName = "@cdTurmaProfessor",
-                    Value = cdTurmaProfessor});
+                cmd.Parameters.Add(new SqlParameter(){
+                ParameterName = "@cdTurmaProfessor",
+                Value = cdTurmaProfessor
+                });
 
-                    cmd.ExecuteNonQuery();
-                }
+                cmd.ExecuteNonQuery();
             }
+        }
+    }
+
+    public void AtivarTP(int? cdTurmaProfessor)
+    {
+        /* TODO -  CRIAR UMA PROCEDURE 
+        var sql = @"update TurmaProfessor set ativo = 1 where idTurmaProfessor = @cdTurmaProfessor  
+                     
+                    update Aproveitamentos set Ativo = 1 where turmaProfessorId =  @cdTurmaProfessor
+                    "
+        */
+        var sql = @"update TurmaProfessor set ativo = 1 where idTurmaProfessor = @cdTurmaProfessor 
+                    
+                    update Aproveitamentos set Ativo = 1 where turmaProfessorId =  @cdTurmaProfessor";
+
+        using(var cn = new SqlConnection(ConnectionStr))
+        {
+            cn.Open();
+            using(var cmd = new SqlCommand(sql, cn))
+            {
+                cmd.Parameters.Add(new SqlParameter(){
+                ParameterName = "@cdTurmaProfessor",
+                Value = cdTurmaProfessor
+                });
+
+                cmd.ExecuteNonQuery();
+            }
+        }
     }
 }

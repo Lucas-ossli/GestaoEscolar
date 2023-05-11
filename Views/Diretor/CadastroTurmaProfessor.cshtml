@@ -23,7 +23,7 @@
             }
         </select><br>
 
-        <select class="form-select form-select" aria-label="Default select example" name="CdDisciplina">
+        <select class="form-select form-select" aria-label="Default select example" name="CdTurma">
             @{
                 foreach (var item in Model.Turmas)
                 {
@@ -32,7 +32,7 @@
             }
         </select><br>
 
-        <select class="form-select form-select" aria-label="Default select example" name="CdTurma">
+        <select class="form-select form-select" aria-label="Default select example" name="CdDisciplina">
             @{
                 foreach (var item in Model.Disciplinas)
                 {
@@ -62,20 +62,28 @@
             <td>Professor</td>
             <td>Turma</td>
             <td>Disciplina</td>
+            <td>Ano</td>
             <td>Aulas</td>
             <td>Alunos</td>
+            <td>Inativar</td>
         </tr>
-        @{
+         @{
             if(Model.TurmaProfessores.Count > 0){
                 foreach(var item in Model.TurmaProfessores)
                 {
-                    <tr>
+                    string color = item.Ativo ?  string.Empty :"#cd380e";
+                    string ativo = item.Ativo ?  "Inativar" :"Ativar";
+                    string btnAtivo = item.Ativo ?  "btn btn-danger" : "btn btn-success";
+                    string ativoAction = item.Ativo ? "/Diretor/InativarTP/" + item.CdTurmaProfessor.ToString() : "/Diretor/AtivarTP/" + item.CdTurmaProfessor.ToString();
+
+                    <tr bgcolor="@color" >
                         <td>@item.NomeProfessor</td>
                         <td>@item.NomeDaTurma</td>
                         <td>@item.NomeDaDisciplina</td>
+                        <td>@item.Ano.Year</td>
                         <td><a class="btn btn-primary" href="/Professor/Aulas/@item.CdTurmaProfessor">Aulas</a></td>
                         <td><a class="btn btn-primary" href="/Professor/Alunos/@item.CdTurmaProfessor">Alunos</a></td>
-                    
+                        <td><a class="@btnAtivo" href="@ativoAction">@ativo</a></td>
                     </tr>
 
                 }
@@ -85,5 +93,7 @@
 
     </table>
 
+    <p>Ver Turmas Inativas</p>
+    <a class="btn btn-danger" href="/Diretor/CadastroTurmaProfessor/false">Inativas</a>
 
 </div>

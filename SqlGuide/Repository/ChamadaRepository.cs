@@ -54,4 +54,29 @@ public class ChamadaRepository : IChamadaRepository
         return chamada;
         
     }
+
+    public void Insert(List<Pessoa> alunos, int? cdAula)
+    {
+        var sql = @"insert into chamada(aulaId, alunoId)values(@cdAula,@cdAluno)";
+
+        foreach (var item in alunos)
+        {
+            using(var cn = new SqlConnection(ConnectionStr))
+            {
+                cn.Open();
+                using(var cmd = new SqlCommand(sql, cn))
+                {
+                    cmd.Parameters.Add(new SqlParameter(){
+                    ParameterName = "@cdAluno",
+                    Value = item.CdPessoa});
+
+                    cmd.Parameters.Add(new SqlParameter(){
+                    ParameterName = "@cdAula",
+                    Value = cdAula});
+                    
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+    }
 }

@@ -1,0 +1,29 @@
+@using Models;
+@model Aula
+@{
+    ViewData["Title"] = "Cadastro de Aula";
+}
+
+@{
+    Layout= "/Views/Professor/_Layout.cshtml";
+}
+
+
+
+<div class="container">
+
+    <h1>Cadastro de Aula</h1>
+    <form asp-action="CadastrarAula" method="POST" class="form-group">
+        <label for="Descricao">Descricao</label>
+        <input class="form-control" type="text" name="Descricao">
+
+        <label for="Data">Data</label>
+        <input class="form-control" type="date" name="Data">
+
+        <input type="hidden" asp-for="CdTurmaProfessor">
+        
+        <button class="btn btn-primary" style="margin-top: 20px" >Enviar</button>
+    </form>
+
+
+</div>

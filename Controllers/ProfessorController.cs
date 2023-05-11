@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using GestaoEscolar.Models;
 using Microsoft.Data.SqlClient;
 using SqlGuide.Interface;
+using Models;
 
 namespace GestaoEscolar.Controllers;
 
@@ -26,6 +27,7 @@ public class ProfessorController : Controller
 
     [HttpGet]
     [Route("Professor/TurmasProfessor/{cdProfessor}/{ativo}")]
+    [Route("Professor/TurmasProfessor/{cdProfessor}")]
     [Route("Professor/TurmasProfessor")]
     //TODO - Adicionar o cdProfessor do professor que vira no Identity
     public IActionResult TurmasProfessor(int cdProfessor = 3, bool ativo = true)
@@ -55,5 +57,25 @@ public class ProfessorController : Controller
         return View(model);
     }
 
+    [HttpGet]
+    [Route("Professor/CadastrarAula/{cdTurmaProfessor}")]
+    public IActionResult CadastrarAula(int? cdTurmaProfessor)
+    {
+        var model = new Aula(){
+            CdTurmaProfessor = cdTurmaProfessor
+        };
+        return View(model);
+    }
+
+    [HttpPost]
+    public IActionResult CadastrarAula(Aula model)
+    {
+        //Verificar se o model tem o cdTP
+        _aulaRepository.Insert(model);
+        model = _aulaRepository.SearchOne(model);
+        var alunos = _aproveitamentoRepository.SearchAlunos(model.CdTurmaProfessor);
+        _chamadaRepository.Insert(alunos, model.CdAula);
+        return View(model);
+    }
     
 }

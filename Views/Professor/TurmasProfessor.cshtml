@@ -32,9 +32,10 @@
                         <td>@item.NomeDaDisciplina</td>
                         <td>@item.NomeDaTurma</td>
                         <td>@item.QtdAlunos</td>
+                        <td>@item.Ano.Year</td>
                         <td><a class="btn btn-primary" href="/Professor/Aulas/@item.CdTurmaProfessor">Aulas</a></td>
                         <td><a class="btn btn-primary" href="#">Notas</a></td>
-                        <td><a class="btn btn-primary" href="#">Alunos</a></td>
+                        <td><a class="btn btn-primary" href="/Professor/Alunos/@item.CdTurmaProfessor">Alunos</a></td>
                     </tr>
                 }
             }
@@ -43,7 +44,7 @@
     </table>
     <br>
     <p>Ver Turmas Inativas</p>
-    <a class="btn btn-danger" href="/Professor/TurmasProfessor/3/false">Inativas</a>
+    <a class="btn btn-danger" href="/Professor/TurmasProfessor/null/false">Inativas</a>
     <h3> A turma Algoritmo e Lógica de Programaçãoo 1-a  serve de teste [TODO - REMOVER ESTA MSG]</h3>
     
 </div>

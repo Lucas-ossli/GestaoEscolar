@@ -8,7 +8,7 @@ public class AproveitamentoRepository : IAproveitamentoRepository
     public string ConnectionStr{
         get{return ConnectionString.ConnectionStr;}
     }
-    public List<Pessoa> SearchAlunos(int cdTurmaProfessor)
+    public List<Pessoa> SearchAlunos(int? cdTurmaProfessor)
     {
         var Alunos = new List<Pessoa>();
 

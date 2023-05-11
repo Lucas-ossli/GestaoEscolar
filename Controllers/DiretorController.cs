@@ -64,13 +64,16 @@ public class DiretorController : Controller
         return View();
     }
 
-    public IActionResult CadastroTurmaProfessor()
+    [HttpGet]
+    [Route("Diretor/CadastroTurmaProfessor/{ativo}")]
+    [Route("Diretor/CadastroTurmaProfessor")]
+    public IActionResult CadastroTurmaProfessor(bool ativo = true)
     {
         var model = new TurmaProfessor2();
         model.Disciplinas = _disciplinaRepository.SearchAll();
         model.Professores = _pessoaRepository.SearchAllProfessores();
         model.Turmas = _turmaRepository.SearchAllTurmas();
-        model.TurmaProfessores = _turmaProfRepository.SearchAll();
+        model.TurmaProfessores = _turmaProfRepository.SearchAll(ativo);
         return View(model);
     }
 
@@ -85,7 +88,22 @@ public class DiretorController : Controller
     public IActionResult ExcluirTP(int cdTurmaProfessor)
     {
         //TODO - TERMINAR
-        _turmaProfRepository.Delete(cdTurmaProfessor);
+        _turmaProfRepository.InativarTP(cdTurmaProfessor);
+        return RedirectToAction("CadastroTurmaProfessor");
+    }
+
+    [Route("Diretor/InativarTP/{cdTurmaProfessor}")]
+    public IActionResult InativarTP(int cdTurmaProfessor)
+    {
+        //TODO - TERMINAR
+        _turmaProfRepository.InativarTP(cdTurmaProfessor);
+        return RedirectToAction("CadastroTurmaProfessor");
+    }
+
+    [Route("Diretor/AtivarTP/{cdTurmaProfessor}")]
+    public IActionResult AtivarTP(int cdTurmaProfessor)
+    {
+        _turmaProfRepository.AtivarTP(cdTurmaProfessor);
         return RedirectToAction("CadastroTurmaProfessor");
     }
 
