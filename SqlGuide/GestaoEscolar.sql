@@ -131,7 +131,7 @@ create table aula
 go			
 --select al.idAula from aula al where al.TurmaProfessorId = @cdTurmaProfessor and al.descricao = @descricao and al.dataAula = @data 
 --ano / mes / dia
---insert into aula(TurmaProfessorId,descricao,dataAula) values(6,'Apresentação ',CONVERT(date, '2023-4-15'))
+insert into aula(TurmaProfessorId,descricao,dataAula) values(6,'Apresentação ',CONVERT(date, '2023-4-15'))
 go
 
 select * from aula
@@ -148,7 +148,7 @@ create table chamada
 )
 --drop table chamada
 
-insert into chamada(aulaId, alunoId,presenca1)values(1,4,1)
+insert into chamada(aulaId, alunoId)values(1,4)
 
 ---//---//---//---//---//---//---//---//---//---//---//---//---//---//---//---//---//---//
 
@@ -164,7 +164,7 @@ create table Aproveitamentos
 	nota			decimal(10,2)		null	default 0	check (nota between 0.0 and 10.0),
 	faltas			int					null	default 0,
 	Ativo			bit				not null, --1 ativo, 0 Inativo
-	constraint unique_tp unique (turmaProfessorId, alunoId, ano, bimestre)
+	constraint unique_ap unique (turmaProfessorId, alunoId, ano, bimestre)
 	--primary key (disciplinaId, alunoId, ano, bimestre, TurmaId)
 )
 go
