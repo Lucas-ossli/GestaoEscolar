@@ -79,7 +79,7 @@ public class PessoaRepository : IPessoaRepository
                     while(dr.Read())
                     {
                         professores.Add(new Pessoa(){
-                            CdCargo = Convert.ToInt32(dr["idPessoa"]),
+                            CdPessoa = Convert.ToInt32(dr["idPessoa"]),
                             Nome = dr["nome"].ToString()
                         });
                     }
@@ -88,5 +88,38 @@ public class PessoaRepository : IPessoaRepository
         }
 
         return professores;
+    }
+
+    
+    public List<Aluno> SearchAllAlunos()
+    {
+       var alunos = new List<Aluno>();
+
+        var sql = @"select 
+                        pf.idPessoa,
+                        pf.nome 
+                    from Pessoas pf 
+                    where cargoId = 3";
+
+        
+        using(var cn = new SqlConnection(ConnectionStr))
+        {    
+            cn.Open();
+            using(var cmd = new SqlCommand(sql, cn))
+            {
+                using (var dr = cmd.ExecuteReader())
+                {
+                    while(dr.Read())
+                    {
+                        alunos.Add(new Aluno(){
+                            CdPessoa = Convert.ToInt32(dr["idPessoa"]),
+                            Nome = dr["nome"].ToString()
+                        });
+                    }
+                }
+            }
+        }
+
+        return alunos;
     }
 }

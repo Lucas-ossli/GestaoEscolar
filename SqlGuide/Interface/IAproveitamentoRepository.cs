@@ -3,6 +3,8 @@ using Models;
 namespace SqlGuide.Interface;
 public interface IAproveitamentoRepository
 {
-    List<Pessoa> SearchAlunos(int? cdTurmaProfessor);
+    List<Aluno> SearchAlunos(int? cdTurmaProfessor);
+
+    void Insert(int? cdAluno, int? cdTurmaProfessor);
     
 }

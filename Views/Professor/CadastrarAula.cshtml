@@ -19,8 +19,8 @@
 
         <label for="Data">Data</label>
         <input class="form-control" type="date" name="Data">
-
-        <input type="hidden" asp-for="CdTurmaProfessor">
+        
+        <input type="hidden" value="@Model.CdTurmaProfessor" asp-for="CdTurmaProfessor">
         
         <button class="btn btn-primary" style="margin-top: 20px" >Enviar</button>
     </form>

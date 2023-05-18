@@ -9,7 +9,7 @@ public class AulaRepository : IAulaRepository
         get{return ConnectionString.ConnectionStr;}
     }
 
-    public List<Aula> Search(int cdTurmaProfessor)
+    public List<Aula> Search(int? cdTurmaProfessor)
     {
         List<Aula> aulas = new List<Aula>();
 
@@ -40,16 +40,6 @@ public class AulaRepository : IAulaRepository
                             CdAula = Convert.ToInt32(dr["idAula"])
                         });
                     }
-                    if(aulas.Count == 0){
-
-                        aulas.Add(new Aula(){
-                            CdTurmaProfessor = cdTurmaProfessor
-                        });
-                    }
-                    else{
-                        aulas.First().CdTurmaProfessor = cdTurmaProfessor;
-                    }
-
                 }
             }
         }

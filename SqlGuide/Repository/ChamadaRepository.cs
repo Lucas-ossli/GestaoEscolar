@@ -55,7 +55,7 @@ public class ChamadaRepository : IChamadaRepository
         
     }
 
-    public void Insert(List<Pessoa> alunos, int? cdAula)
+    public void Insert(List<Aluno> alunos, int? cdAula)
     {
         var sql = @"insert into chamada(aulaId, alunoId)values(@cdAula,@cdAluno)";
 

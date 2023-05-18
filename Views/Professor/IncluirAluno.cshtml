@@ -1,0 +1,35 @@
+@using Models;
+@model AlunoSubmit
+@{
+    ViewData["Title"] = "Incluir Aluno";
+}
+
+@{
+    Model.CdTurmaProfessor = ViewBag.cdTurmaProfessor;
+    Layout= "/Views/Professor/_Layout.cshtml";
+}
+
+
+
+<div class="container">
+
+    <h1>Incluir Aluno</h1>
+
+    <form method="POST" class="form-group">
+        
+        <select class="form-select form-select" aria-label="Default select example" name="CdPessoa">
+            @{
+                foreach (var item in Model.Alunos)
+                {
+                    <option value="@item.CdPessoa">@item.Nome</option>
+                }
+            }
+            
+            <input asp-for="CdTurmaProfessor" style="display:none">
+
+        </select><br>
+
+         <button class="btn btn-primary" style="margin-top: 20px">Enviar</button>
+    </form>
+    
+</div>

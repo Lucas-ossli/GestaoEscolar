@@ -60,8 +60,17 @@ public class DiretorController : Controller
     [HttpPost]
     public IActionResult CadastroDisciplina(Disciplina disciplina)
     {
-        _disciplinaRepository.Insert(disciplina);
-        return View();
+
+        if(ModelState.IsValid){
+            _disciplinaRepository.Insert(disciplina);
+            return RedirectToAction("index");
+        }
+        else
+        {
+           return View(disciplina);
+        }
+
+        
     }
 
     [HttpGet]

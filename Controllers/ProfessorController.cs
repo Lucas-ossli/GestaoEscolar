@@ -13,16 +13,19 @@ public class ProfessorController : Controller
     private readonly IAulaRepository _aulaRepository;
     private readonly IChamadaRepository _chamadaRepository;
     private readonly IAproveitamentoRepository _aproveitamentoRepository;
+    private readonly IPessoaRepository _pessoaRepository;
 
     public ProfessorController( ITurmaProfessorRepository turmaProfessorRepository,
                                 IAulaRepository aulaRepository,
                                 IChamadaRepository chamadaRepository,
-                                IAproveitamentoRepository aproveitamentoRepository)
+                                IAproveitamentoRepository aproveitamentoRepository,
+                                IPessoaRepository pessoaRepository)
     {
         _turmaProfessorRepository = turmaProfessorRepository;
         _aulaRepository = aulaRepository;
         _chamadaRepository= chamadaRepository;
         _aproveitamentoRepository = aproveitamentoRepository;
+        _pessoaRepository = pessoaRepository;
     }
 
     [HttpGet]
@@ -36,10 +39,19 @@ public class ProfessorController : Controller
         return View(turmas);
     }
 
-    [Route("Professor/Aulas/{CdAula}")]
-    public IActionResult Aulas(int cdAula)
+    [Route("Professor/Aulas/{cdTurmaProfessor}")]
+    public IActionResult Aulas(int cdTurmaProfessor)
     {
-        var aulas = _aulaRepository.Search(cdAula);
+        var aulas = _aulaRepository.Search(cdTurmaProfessor);
+        if(aulas.Count == 0){
+            aulas.Add(new Aula(){
+                CdTurmaProfessor = cdTurmaProfessor
+            });
+        }
+        else{
+            aulas.First().CdTurmaProfessor = cdTurmaProfessor;
+        }
+
         return View(aulas);
     }
     
@@ -54,6 +66,14 @@ public class ProfessorController : Controller
     public IActionResult Alunos(int CdTurmaProfessor)
     {
         var model = _aproveitamentoRepository.SearchAlunos(CdTurmaProfessor);
+        if(model.Any()){
+            model.First().CdTurmaProfessor = CdTurmaProfessor;
+        }else{
+            model.Add(new Aluno(){
+                CdTurmaProfessor = CdTurmaProfessor
+            });
+        }
+
         return View(model);
     }
 
@@ -75,7 +95,33 @@ public class ProfessorController : Controller
         model = _aulaRepository.SearchOne(model);
         var alunos = _aproveitamentoRepository.SearchAlunos(model.CdTurmaProfessor);
         _chamadaRepository.Insert(alunos, model.CdAula);
+        return RedirectToAction("Aulas", new { CdTurmaProfessor = model.CdTurmaProfessor });
+    }
+
+    [HttpGet]
+    [Route("Professor/IncluirAluno/{CdTurmaProfessor}")]
+    public IActionResult IncluirAluno(int? cdTurmaProfessor)
+    {
+        AlunoSubmit model = new AlunoSubmit();
+        model.Alunos = _pessoaRepository.SearchAllAlunos();//TODO(TROCAR) :procurar apenas os alunos que não estão nesta cdTurmaProfessor
         return View(model);
     }
-    
+
+    [HttpPost]
+    public IActionResult IncluirAluno(AlunoSubmit model)
+    {
+        var aulas = _aulaRepository.Search(model.CdTurmaProfessor);
+        if(aulas.Any()){
+            List<Aluno> alunos = new List<Aluno>(){new Aluno(){
+            CdPessoa = model.CdPessoa
+            }};
+            foreach(var item in aulas){
+                _chamadaRepository.Insert(alunos, item.CdAula);
+            }
+        }
+        
+        _aproveitamentoRepository.Insert(model.CdPessoa, model.CdTurmaProfessor);
+
+        return RedirectToAction("Alunos",new { CdTurmaProfessor = model.CdTurmaProfessor });
+    }
 }

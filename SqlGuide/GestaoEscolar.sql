@@ -159,12 +159,12 @@ create table Aproveitamentos
 	--disciplinaId	int				not null	references Disciplinas(idDisciplina),
 	turmaProfessorId			int				not null	references TurmaProfessor(idTurmaProfessor), --TODO Melhorar isso 
 	alunoId			int				not null	references Pessoas(idPessoa),
-	ano				int				not null,
-	bimestre		int				not null,
+	--ano				int				not null,
+	--bimestre		int				not null,
 	nota			decimal(10,2)		null	default 0	check (nota between 0.0 and 10.0),
-	faltas			int					null	default 0,
+	--faltas			int					null	default 0,
 	Ativo			bit				not null, --1 ativo, 0 Inativo
-	constraint unique_ap unique (turmaProfessorId, alunoId, ano, bimestre)
+	constraint unique_ap unique (turmaProfessorId, alunoId /*ano, bimestre*/)
 	--primary key (disciplinaId, alunoId, ano, bimestre, TurmaId)
 )
 go
@@ -179,27 +179,27 @@ where ap.turmaProfessorId = 4
 --go
 
 --iNSERT Lógica de Programação Turmas 1-a - professora Valéria
-insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(4, 2023, 1, 10, 12,6, 1)
-insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(5, 2023, 1, 10, 12,6, 1)
-insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(6, 2023, 1, 10, 12,6, 1)
-insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(7, 2023, 1, 10, 12,6, 1)
+insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(4, 10, 6, 1)
+insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(5, 10, 6, 1)
+insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(6, 10, 6, 1)
+insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(7, 10, 6, 1)
 
 
 --iNSERT BD Turmas 1-a - professora Valéria
-insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(4, 2023, 1, 10, 12,4, 1)
-insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(5, 2023, 1, 10, 12,4, 1)
-insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(6, 2023, 1, 10, 12,4, 1)
+insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(4, 10, 4, 1)
+insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(5, 10, 4, 1)
+insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(6, 10, 4, 1)
 
 --iNSERT LP Turmas 2-b - professora Valéria
-insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(4, 2023, 1, 10, 12,2, 1)
-insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(5, 2023, 1, 10, 12,2, 1)
-insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(6, 2023, 1, 10, 12,2, 1)
+insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(4, 10, 2, 1)
+insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(5, 10, 2, 1)
+insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(6, 10, 2, 1)
 
 
 --iNSERT BD Turmas 3-c - professora Valéria
-insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(4, 2023, 1, 10, 12,3, 1)
-insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(5, 2023, 1, 10, 12,3, 1)
-insert into Aproveitamentos (alunoId, ano, bimestre, nota, faltas, turmaProfessorId, Ativo) values(6, 2023, 1, 10, 12,3, 1)
+insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(4, 10, 3, 1)
+insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(5, 10, 3, 1)
+insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(6, 10, 3, 1)
 
 
 select * from Aproveitamentos

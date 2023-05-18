@@ -12,14 +12,15 @@
 <div class="container">
 
     <h1>Cadastro de Disciplina</h1>
+    <div asp-validation-summary="All"></div>
     <form method="POST" class="form-group">
-        <label for="NomeDisciplina">Nome:</label>
-        <input class="form-control" type="text" name="NomeDisciplina">
+        <label asp-for="NomeDisciplina">Nome:</label>
+        <input class="form-control" type="text" asp-for="NomeDisciplina">
 
-        <label for="CargaHoraria">Carga Horária:</label>
-        <input class="form-control" type="number" name="CargaHoraria">
+        <label asp-for="CargaHoraria">Carga Horária:</label>
+        <input class="form-control" type="number" asp-for="CargaHoraria">
         
-        <button class="btn btn-primary" style="margin-top: 20px">Enviar</button>
+        <button type="submit" class="btn btn-primary" style="margin-top: 20px">Enviar</button>
     </form>
     
 </div>
