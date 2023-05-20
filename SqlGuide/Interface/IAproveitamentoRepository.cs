@@ -5,6 +5,6 @@ public interface IAproveitamentoRepository
 {
     List<Aluno> SearchAlunos(int? cdTurmaProfessor);
 
-    void Insert(int? cdAluno, int? cdTurmaProfessor);
+    void Insert(int? cdAluno, int? cdTurmaProfessor, int cdNota);
     
 }

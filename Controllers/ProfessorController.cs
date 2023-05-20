@@ -14,18 +14,21 @@ public class ProfessorController : Controller
     private readonly IChamadaRepository _chamadaRepository;
     private readonly IAproveitamentoRepository _aproveitamentoRepository;
     private readonly IPessoaRepository _pessoaRepository;
+    private readonly INotaRepository _notaRepository;
 
     public ProfessorController( ITurmaProfessorRepository turmaProfessorRepository,
                                 IAulaRepository aulaRepository,
                                 IChamadaRepository chamadaRepository,
                                 IAproveitamentoRepository aproveitamentoRepository,
-                                IPessoaRepository pessoaRepository)
+                                IPessoaRepository pessoaRepository,
+                                INotaRepository notaRepository)
     {
         _turmaProfessorRepository = turmaProfessorRepository;
         _aulaRepository = aulaRepository;
         _chamadaRepository= chamadaRepository;
         _aproveitamentoRepository = aproveitamentoRepository;
         _pessoaRepository = pessoaRepository;
+        _notaRepository = notaRepository;
     }
 
     [HttpGet]
@@ -119,8 +122,8 @@ public class ProfessorController : Controller
                 _chamadaRepository.Insert(alunos, item.CdAula);
             }
         }
-        
-        _aproveitamentoRepository.Insert(model.CdPessoa, model.CdTurmaProfessor);
+        var cdNota = _notaRepository.Insert(model.CdPessoa, model.CdTurmaProfessor);
+        _aproveitamentoRepository.Insert(model.CdPessoa, model.CdTurmaProfessor, cdNota);//tem que passar o id da nota
 
         return RedirectToAction("Alunos",new { CdTurmaProfessor = model.CdTurmaProfessor });
     }

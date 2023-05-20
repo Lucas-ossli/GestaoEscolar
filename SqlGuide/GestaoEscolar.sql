@@ -44,7 +44,8 @@ insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('Lucas', '091265
 insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('Leonardo', '09115978910-12', GETDATE(), 3)	
 insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('Pedro', '65423412653-12', GETDATE(), 3)	
 insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('Jean', '65428412653-12', GETDATE(), 3)	
-
+insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('Karen', '65423414453-12', GETDATE(), 3)	
+insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('Christian', '94728412653-12', GETDATE(), 3)	
 select pf.idPessoa, Pf.nome, ca.cargo from Pessoas Pf inner join Cargos ca on ca.idCargo = Pf.cargoId
 go
 
@@ -131,8 +132,8 @@ create table aula
 go			
 --select al.idAula from aula al where al.TurmaProfessorId = @cdTurmaProfessor and al.descricao = @descricao and al.dataAula = @data 
 --ano / mes / dia
-insert into aula(TurmaProfessorId,descricao,dataAula) values(6,'Apresentação ',CONVERT(date, '2023-4-15'))
-go
+--insert into aula(TurmaProfessorId,descricao,dataAula) values(6,'Apresentação ',CONVERT(date, '2023-4-15'))
+--go
 
 select * from aula
 --drop table aula
@@ -148,11 +149,24 @@ create table chamada
 )
 --drop table chamada
 
-insert into chamada(aulaId, alunoId)values(1,4)
+--insert into chamada(aulaId, alunoId)values(1,4)
 
 ---//---//---//---//---//---//---//---//---//---//---//---//---//---//---//---//---//---//
 
-
+create table nota
+(
+	idNota int primary key identity,
+	TurmaProfessorId		int				not null	references TurmaProfessor(idTurmaProfessor),
+	alunoId			int				not null	references Pessoas(idPessoa),
+	nota1			decimal(10,2)		null	default 0	check (nota1 between 0.0 and 10.0),
+	nota2			decimal(10,2)		null	default 0	check (nota2 between 0.0 and 10.0),
+	nota3			decimal(10,2)		null	default 0	check (nota3 between 0.0 and 10.0),
+	nota4			decimal(10,2)		null	default 0	check (nota4 between 0.0 and 10.0),
+	constraint unique_nt unique (turmaProfessorId, alunoId)
+)
+--insert into nota(TurmaProfessorId, alunoId) values(@cdTurmaProfessor, @cdAluno)
+--select * from nota where TurmaProfessorId = @cdTurmaProfessor and alunoId = @cdAluno
+--insert into nota(TurmaProfessorId, alunoId) values(1, 4)
 -- Aproveitamentos
 create table Aproveitamentos
 (
@@ -161,7 +175,8 @@ create table Aproveitamentos
 	alunoId			int				not null	references Pessoas(idPessoa),
 	--ano				int				not null,
 	--bimestre		int				not null,
-	nota			decimal(10,2)		null	default 0	check (nota between 0.0 and 10.0),
+	--nota			decimal(10,2)		null	default 0	check (nota between 0.0 and 10.0),
+	notaId	not null references nota(idNota),
 	--faltas			int					null	default 0,
 	Ativo			bit				not null, --1 ativo, 0 Inativo
 	constraint unique_ap unique (turmaProfessorId, alunoId /*ano, bimestre*/)
@@ -178,28 +193,28 @@ where ap.turmaProfessorId = 4
 --drop table Aproveitamentos
 --go
 
---iNSERT Lógica de Programação Turmas 1-a - professora Valéria
-insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(4, 10, 6, 1)
-insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(5, 10, 6, 1)
-insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(6, 10, 6, 1)
-insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(7, 10, 6, 1)
+----iNSERT Lógica de Programação Turmas 1-a - professora Valéria
+--insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(4, 10, 6, 1)
+--insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(5, 10, 6, 1)
+--insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(6, 10, 6, 1)
+--insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(7, 10, 6, 1)
 
 
---iNSERT BD Turmas 1-a - professora Valéria
-insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(4, 10, 4, 1)
-insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(5, 10, 4, 1)
-insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(6, 10, 4, 1)
+----iNSERT BD Turmas 1-a - professora Valéria
+--insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(4, 10, 4, 1)
+--insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(5, 10, 4, 1)
+--insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(6, 10, 4, 1)
 
---iNSERT LP Turmas 2-b - professora Valéria
-insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(4, 10, 2, 1)
-insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(5, 10, 2, 1)
-insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(6, 10, 2, 1)
+----iNSERT LP Turmas 2-b - professora Valéria
+--insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(4, 10, 2, 1)
+--insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(5, 10, 2, 1)
+--insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(6, 10, 2, 1)
 
 
---iNSERT BD Turmas 3-c - professora Valéria
-insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(4, 10, 3, 1)
-insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(5, 10, 3, 1)
-insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(6, 10, 3, 1)
+----iNSERT BD Turmas 3-c - professora Valéria
+--insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(4, 10, 3, 1)
+--insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(5, 10, 3, 1)
+--insert into Aproveitamentos (alunoId, nota, turmaProfessorId, Ativo) values(6, 10, 3, 1)
 
 
 select * from Aproveitamentos

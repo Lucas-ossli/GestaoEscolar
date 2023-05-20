@@ -46,12 +46,12 @@ public class AproveitamentoRepository : IAproveitamentoRepository
         }
     }
 
-    public void Insert(int? cdAluno, int? cdTurmaProfessor)
+    public void Insert(int? cdAluno, int? cdTurmaProfessor, int cdNota)
     {
-        var sql = @"insert into Aproveitamentos (alunoId, turmaProfessorId, Ativo) 
-                                          values(@cdAluno, @cdTurmaProfessor, 1)";
+        var sql = @"insert into Aproveitamentos (alunoId, turmaProfessorId, notaId, Ativo) 
+                                          values(@cdAluno, @cdTurmaProfessor, @cdNota, 1)";
 
-
+        
         using(var cn = new SqlConnection(ConnectionStr))
         {
             cn.Open();
@@ -64,6 +64,10 @@ public class AproveitamentoRepository : IAproveitamentoRepository
                 cmd.Parameters.Add(new SqlParameter(){
                 ParameterName = "@cdTurmaProfessor",
                 Value = cdTurmaProfessor});
+
+                cmd.Parameters.Add(new SqlParameter(){
+                ParameterName = "@cdNota",
+                Value = cdNota});
                 
                 cmd.ExecuteNonQuery();
             }
