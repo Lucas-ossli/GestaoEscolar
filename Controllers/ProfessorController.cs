@@ -127,4 +127,28 @@ public class ProfessorController : Controller
 
         return RedirectToAction("Alunos",new { CdTurmaProfessor = model.CdTurmaProfessor });
     }
+
+    [HttpGet]
+    [Route("Professor/Notas/{CdTurmaProfessor}")]
+    public IActionResult Notas(int? cdTurmaProfessor)
+    {
+        NotaSubmit model = new NotaSubmit();
+        model.Notas = _notaRepository.Search(cdTurmaProfessor);
+        return View(model);
+    }
+
+    [HttpGet]
+    [Route("Professor/EditarNota/{cdAluno}/{CdTurmaProfessor}")]
+    public IActionResult EditarNota(int? cdAluno, int? cdTurmaProfessor)
+    {
+        var model = _notaRepository.SearchOne(cdAluno, cdTurmaProfessor);
+        return View(model);
+    }
+
+    [HttpPost]
+    public IActionResult SalvarNota(Nota model)
+    {
+        _notaRepository.Update(model);
+        return RedirectToAction("Notas", new {cdTurmaProfessor = model.CdTurmaProfessor});
+    }
 }

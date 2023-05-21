@@ -166,6 +166,11 @@ create table nota
 )
 --insert into nota(TurmaProfessorId, alunoId) values(@cdTurmaProfessor, @cdAluno)
 --select * from nota where TurmaProfessorId = @cdTurmaProfessor and alunoId = @cdAluno
+--delete from nota
+--select 
+--                    idNota 
+--                from nota 
+--                    where TurmaProfessorId = 2 and alunoId = 5
 --insert into nota(TurmaProfessorId, alunoId) values(1, 4)
 -- Aproveitamentos
 create table Aproveitamentos
@@ -176,7 +181,7 @@ create table Aproveitamentos
 	--ano				int				not null,
 	--bimestre		int				not null,
 	--nota			decimal(10,2)		null	default 0	check (nota between 0.0 and 10.0),
-	notaId	not null references nota(idNota),
+	notaId	int		not null references nota(idNota),
 	--faltas			int					null	default 0,
 	Ativo			bit				not null, --1 ativo, 0 Inativo
 	constraint unique_ap unique (turmaProfessorId, alunoId /*ano, bimestre*/)

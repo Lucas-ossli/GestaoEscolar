@@ -1,0 +1,42 @@
+@using Models;
+@model NotaSubmit
+@{
+    ViewData["Title"] = "Notas";
+}
+
+@{
+    Layout= "/Views/Professor/_Layout.cshtml";
+}
+
+
+<div class="container">
+    
+    <table class="table table-bordered">
+        
+        <tr>
+            <td><b>Aluno</b></td>
+            <td><b>Nota 1</b></td>
+            <td><b>Nota 2</b></td>
+            <td><b>Nota 3</b></td>
+            <td><b>Nota 4</b></td>
+            <td>Editar</td>
+        </tr>
+        @{
+            if(Model.Notas.Count > 0){
+                    foreach(var item in Model.Notas)
+                {
+                    <tr>
+                        <td name="Aluno">@item.Aluno</td>
+                        <td name="Nota1">@item.Nota1.ToString()</td>
+                        <td name="Nota2">@item.Nota2.ToString()</td>
+                        <td name="Nota3">@item.Nota3.ToString()</td>
+                        <td name="Nota4">@item.Nota4.ToString()</td>
+                        <td><a class="btn btn-primary" href="/Professor/EditarNota/@item.CdAluno/@item.CdTurmaProfessor">Editar</a> </td>
+                    </tr>
+                    
+                }
+            }
+        }
+    </table>
+
+</div>

@@ -1,3 +1,4 @@
+using GestaoEscolar.Models;
 using Microsoft.Data.SqlClient;
 using Models;
 using SqlGuide.Interface;
@@ -38,7 +39,7 @@ public class NotaRepository : INotaRepository
                 from nota 
                     where TurmaProfessorId = @cdTurmaProfessor and alunoId = @cdAluno";
         int cdNota = 0;
-         using(var cn = new SqlConnection(ConnectionStr))
+        using(var cn = new SqlConnection(ConnectionStr))
         {    
             cn.Open();
             using(var cmd = new SqlCommand(sql, cn))
@@ -63,5 +64,153 @@ public class NotaRepository : INotaRepository
         }
 
         return cdNota;
+    }
+
+    public List<Nota> Search(int? cdTurmaProfessor)
+    {
+        var alunos = new List<Nota>();
+        var sql = @"select 
+                        pf.nome, 
+                        nt.alunoId, 
+                        nt.nota1, 
+                        nt.nota2, 
+                        nt.nota3,
+                        nt.nota4 
+                        
+                    from Nota nt 
+
+                        inner join Pessoas pf
+                        on pf.idPessoa = nt.alunoId
+                        
+                    where nt.TurmaProfessorId = @cdturmaProfessor
+                    
+                    order by nome";
+
+        using(var cn = new SqlConnection(ConnectionStr))
+        {    
+            cn.Open();
+            using(var cmd = new SqlCommand(sql, cn))
+            {
+                cmd.Parameters.Add(new SqlParameter(){
+                ParameterName = "@cdTurmaProfessor",
+                Value = cdTurmaProfessor
+                });
+
+                
+                using (var dr = cmd.ExecuteReader())
+                {
+                    while(dr.Read())
+                    {
+                        Nota aluno = new Nota(){
+                            Aluno = dr["nome"].ToString(),
+                            CdAluno = Convert.ToInt32(dr["alunoId"]),
+                            CdTurmaProfessor = cdTurmaProfessor,
+                            Nota1 =  Convert.ToInt32(dr["nota1"]),
+                            Nota2 =  Convert.ToInt32(dr["nota2"]),
+                            Nota3 =  Convert.ToInt32(dr["nota3"]),
+                            Nota4 =  Convert.ToInt32(dr["nota4"])
+                        };
+
+                        alunos.Add(aluno);
+                    }
+                }
+            }
+        }
+
+        return alunos;
+    }
+
+    public Nota SearchOne(int? cdAluno, int? cdTurmaProfessor)
+    {
+        var sql = @"select 
+                        pf.nome,
+                        nt.idNota,
+                        nt.nota1,
+                        nt.nota2,
+                        nt.nota3,
+                        nt.nota4
+                    from nota nt 
+
+                    inner join Pessoas pf on pf.idPessoa = nt.alunoId
+
+                        where nt.alunoId = @cdAluno 
+                    and nt.TurmaProfessorId = @cdTurmaProfessor";
+        
+        Nota aluno = new Nota();
+
+        using(var cn = new SqlConnection(ConnectionStr))
+        {    
+            cn.Open();
+            using(var cmd = new SqlCommand(sql, cn))
+            {
+                cmd.Parameters.Add(new SqlParameter(){
+                ParameterName = "@cdTurmaProfessor",
+                Value = cdTurmaProfessor
+                });
+
+                cmd.Parameters.Add(new SqlParameter(){
+                ParameterName = "@cdAluno",
+                Value = cdAluno
+                });
+                using (var dr = cmd.ExecuteReader())
+                {
+                    while(dr.Read())
+                    {
+                        
+                        aluno.Aluno = dr["nome"].ToString();
+                        aluno.CdNota = Convert.ToInt32(dr["idNota"]);
+                        aluno.CdTurmaProfessor = cdTurmaProfessor;
+                        aluno.Nota1 =  Convert.ToInt32(dr["nota1"]);
+                        aluno.Nota2 =  Convert.ToInt32(dr["nota2"]);
+                        aluno.Nota3 =  Convert.ToInt32(dr["nota3"]);
+                        aluno.Nota4 =  Convert.ToInt32(dr["nota4"]);
+                    }
+                }
+            }
+        }
+
+        return aluno;
+
+    }
+
+    public void Update(Nota aluno)
+    {
+        var sql = @"update 
+                    Nota 
+                    set 
+                        nota1 = @nota1,
+                        nota2 = @nota2,
+                        nota3 = @nota3,
+                        nota4 = @nota4
+                    where idNota = @cdNota";
+
+        using(var cn = new SqlConnection(ConnectionStr))
+        {
+            cn.Open();
+            using(var cmd = new SqlCommand(sql, cn))
+            {
+                cmd.Parameters.Add(new SqlParameter(){
+                ParameterName = "@cdNota",
+                Value = aluno.CdNota});
+
+                cmd.Parameters.Add(new SqlParameter(){
+                ParameterName = "@nota1",
+                Value = aluno.Nota1});
+
+                cmd.Parameters.Add(new SqlParameter(){
+                ParameterName = "@nota2",
+                Value = aluno.Nota2});
+
+                cmd.Parameters.Add(new SqlParameter(){
+                ParameterName = "@nota3",
+                Value = aluno.Nota3});
+
+                cmd.Parameters.Add(new SqlParameter(){
+                ParameterName = "@nota4",
+                Value = aluno.Nota4});
+
+                cmd.ExecuteNonQuery();
+            }
+        }
     }
 }
