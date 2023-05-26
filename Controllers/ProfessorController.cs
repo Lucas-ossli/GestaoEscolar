@@ -65,6 +65,12 @@ public class ProfessorController : Controller
         return View(model);
     }
 
+    public IActionResult AtualizarPresenca(List<Chamada> model)
+    {
+        _chamadaRepository.Update(model as List<Chamada>);
+        return RedirectToAction("Chamada", new { cdAula = model.First().CdAula});
+    }
+
     [Route("Professor/Alunos/{CdTurmaProfessor}")]
     public IActionResult Alunos(int CdTurmaProfessor)
     {

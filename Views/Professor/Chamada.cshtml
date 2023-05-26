@@ -1,5 +1,5 @@
 @using Models;
-@model List<Chamada>
+@model IList<Chamada>
 @{
     ViewData["Title"] = "Chamada";
 }
@@ -13,11 +13,14 @@
 
 
 <div class="container">
-    <form method="POST" >
+    
+
+    <form method="POST" asp-action="AtualizarPresenca">
         <table class="table table-bordered">
             @{
                 if(Model.Count > 0){
                     <h2>Chamada referente ao dia: @Model.First().Data <b>  </b></h2>
+                    <input asp-for="@Model[0].CdAula" style="display:none" value="@Model.First().CdAula">
                 }
                 else{
                     <h2>Não há aluno registrado</h2>
@@ -31,17 +34,19 @@
                 <td><b>Presença 4</b></td>
             </tr>
             @{
-                if(Model.Count > 0){
+                int i=0;
+                if(Model.Count > 0 && Model.First().CdAluno > 0){
                      foreach(var item in Model)
                     {
                         <tr>
-                            <td name="Aluno">@item.Aluno</td>
-                            <td name="Presenca1"><input type="checkbox" class="form-check-input" checked="@item.Presenca1" name="Presenca1"></td>
-                            <td name="Presenca2"><input type="checkbox" class="form-check-input" checked="@item.Presenca2" name="Presenca2"></td>
-                            <td name="Presenca3"><input type="checkbox" class="form-check-input" checked="@item.Presenca3" name="Presenca3"></td>
-                            <td name="Presenca4"><input type="checkbox" class="form-check-input" checked="@item.Presenca4" name="Presenca4"></td>
+                            <td>@item.Aluno</td>
+                            <td><input asp-for="@Model[i].Presenca1" type="checkbox" class="form-check-input" checked="@item.Presenca1" ></td>
+                            <td><input asp-for="@Model[i].Presenca2" type="checkbox" class="form-check-input" checked="@item.Presenca2"></td>
+                            <td><input asp-for="@Model[i].Presenca3" type="checkbox" class="form-check-input" checked="@item.Presenca3"></td>
+                            <td><input asp-for="@Model[i].Presenca4" type="checkbox" class="form-check-input" checked="@item.Presenca4"></td>
+                            <input asp-for="@Model[i].CdChamada" style="display:none" value="@item.CdChamada"> 
                         </tr>
-
+                        i++;
                     }
                 }
                
@@ -49,11 +54,11 @@
 
         </table>
 
-        <button class="btn btn-primary" style="margin-top: 20px">Salvar</button>
+        <input class="btn btn-success" type="submit" value="Submit"/>
+        @* <button type="submit" class="btn btn-primary" style="margin-top: 20px">Salvar</button> *@
+    
+
     </form>
    
+   
 </div>
-
-
-
-

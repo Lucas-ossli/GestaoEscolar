@@ -2,6 +2,8 @@ namespace Models;
 public class Chamada
 {
     public string Aluno {get;set;}
+    public int CdAula{get;set;}
+    public int CdChamada {get;set;}
     public int CdTurma {get;set;}
     public int CdAluno{get;set;}
     public DateTime Data{get;set;}

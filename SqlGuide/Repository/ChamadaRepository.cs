@@ -13,7 +13,9 @@ public class ChamadaRepository : IChamadaRepository
         var chamada = new List<Chamada>();
         string sql = @"
         select 
-            Pf.nome, 
+            idChamada,
+            Pf.nome,
+            Pf.idPessoa, 
             Al.dataAula, 
             Ch.presenca1, 
             Ch.presenca2, 
@@ -39,6 +41,8 @@ public class ChamadaRepository : IChamadaRepository
                     while(dr.Read())
                     {
                         chamada.Add(new Chamada(){
+                            CdAluno = Convert.ToInt32(dr["idPessoa"]),
+                            CdChamada = Convert.ToInt32(dr["idChamada"]),
                             Aluno = dr["nome"].ToString(),
                             Data = Convert.ToDateTime(dr["dataAula"]),
                             Presenca1 = Convert.ToInt32(dr["presenca1"]) == 1 ? true : false,
@@ -51,8 +55,64 @@ public class ChamadaRepository : IChamadaRepository
             }
         }
         
+        if(chamada.Count > 0)
+        {
+            chamada.First().CdAula = cdAula;
+        }
+        else
+        {
+            chamada.Add(new Chamada(){
+                CdAula = cdAula
+            });
+        }
+
         return chamada;
         
+    }
+    
+    public void Update(List<Chamada> model)
+    {
+        var sql = @"
+                update chamada 
+                set presenca1 = @presenca1 , 
+                    presenca2 = @presenca2,
+                    presenca3 = @presenca3, 
+                    presenca4 = @presenca4
+                where idChamada = @cdChamada 
+                ";
+
+        foreach (var item in model)
+        {
+            
+            using(var cn = new SqlConnection(ConnectionStr))
+            {
+                cn.Open();
+                using(var cmd = new SqlCommand(sql, cn))
+                {
+                    cmd.Parameters.Add(new SqlParameter(){
+                    ParameterName = "@presenca1",
+                    Value = item.Presenca1});
+
+                    cmd.Parameters.Add(new SqlParameter(){
+                    ParameterName = "@presenca2",
+                    Value = item.Presenca2});
+
+                    cmd.Parameters.Add(new SqlParameter(){
+                    ParameterName = "@presenca3",
+                    Value = item.Presenca3});
+
+                    cmd.Parameters.Add(new SqlParameter(){
+                    ParameterName = "@presenca4",
+                    Value = item.Presenca4});
+
+                    cmd.Parameters.Add(new SqlParameter(){
+                    ParameterName = "@cdChamada",
+                    Value = item.CdChamada});
+                    
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 
     public void Insert(List<Aluno> alunos, int? cdAula)
