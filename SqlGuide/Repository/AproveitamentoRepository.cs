@@ -73,4 +73,67 @@ public class AproveitamentoRepository : IAproveitamentoRepository
             }
         }                                  
     }
+
+    public List<Aproveitamento> AlunoInfo(int? cdAluno)
+    {
+
+        List<Aproveitamento> aproveitamento = new List<Aproveitamento>();
+
+        var sql = @"select 
+                        PF.idPessoa, 
+                        PF.nome, 
+                        PFP.nome as Professor, 
+                        TU.Turma, 
+                        DI.nomeDisciplina, 
+                        AP.notaId,
+						AP.turmaProfessorId
+                    from Aproveitamentos AP
+                        inner join Pessoas PF
+                        on PF.idPessoa = AP.alunoId
+
+                        inner join TurmaProfessor TP
+                        on AP.turmaProfessorId = TP.idTurmaProfessor
+
+                        inner join Pessoas PFP
+                        on PFP.idPessoa = TP.ProfessorId --professor
+
+                        inner join Turma TU
+                        on TU.idTurma = TP.TurmaId
+
+                        inner join Disciplinas DI
+                        on DI.idDisciplina = TP.DisciplinaId
+
+        where AP.alunoId = @cdAluno";
+
+
+        using(var cn = new SqlConnection(ConnectionStr))
+        {    
+            cn.Open();
+            using(var cmd = new SqlCommand(sql, cn))
+            {
+                cmd.Parameters.Add(new SqlParameter(){
+                ParameterName = "@cdAluno",
+                Value = cdAluno
+                });
+
+                using (var dr = cmd.ExecuteReader())
+                {
+                    while(dr.Read())
+                    {
+                        aproveitamento.Add(new Aproveitamento(){
+                            CdAluno = Convert.ToInt32(dr["idPessoa"]),
+                            CdNota = Convert.ToInt32(dr["notaId"]),
+                            Aluno = dr["nome"].ToString(),
+                            Professor = dr["Professor"].ToString(),
+                            Turma = dr["Turma"].ToString(),
+                            Disciplina = dr["nomeDisciplina"].ToString(),
+                            cdTurmaProfessor = Convert.ToInt32(dr["turmaProfessorId"])
+                        });
+                    }
+                }
+            }
+        }
+
+        return aproveitamento;
+    }
 }

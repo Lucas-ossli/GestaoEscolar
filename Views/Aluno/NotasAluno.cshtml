@@ -1,0 +1,50 @@
+@using Models;
+@model Nota
+
+@{
+    ViewData["Title"] = "Editar Nota";
+}
+
+@{
+    Layout= "/Views/Aluno/_Layout.cshtml";
+}
+<style>
+
+    .divborder
+    {
+        padding-top: 10px;
+        border-top-width: 15px;
+        width: 50%;
+        margin: auto;
+    }
+</style>
+
+<div class="container">
+    <h1 class="divborder">@Model.Aluno</h1>
+    </br>
+    
+    <div class="form-control divborder">
+        <label asp-for="Nota1">Nota 1</label>
+        <div class="form-control">@Model.Nota1</div></br>
+    </div>
+    </br>
+    <div class="form-control divborder">
+        <label asp-for="Nota2">Nota 2</label>
+        <div class="form-control">@Model.Nota2</div></br>
+    </div>
+
+    </br>
+
+    <div class="form-control divborder">
+        <label asp-for="Nota3">Nota 3</label>
+        <div class="form-control">@Model.Nota3</div> </br>
+    </div>
+
+    </br>
+
+    <div class="form-control divborder">
+        <label asp-for="Nota4">Nota 4</label>
+        <div class="form-control">@Model.Nota4</div></br>
+    </div>
+
+</div>

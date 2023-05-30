@@ -9,48 +9,81 @@
     Layout= "/Views/Diretor/_Layout.cshtml";
 }
 
+<style>
+
+    .divborder
+    {
+        padding-top: 10px;
+        border-top-width: 15px;
+        border-color: #1b98f7;
+        padding-bottom: 20px;
+        margin: auto;
+    }
+
+    .select
+    {
+         margin-top: 10px;
+        margin-bottom: 5px;
+    }
+</style>
+
 <div class="container">
 
     <h1>Vinculo de Turma/Disciplina por Professor</h1>
     <form method="POST" class="form-group">
-        
-        <select class="form-select form-select" aria-label="Default select example" name="CdProfessor">
-            @{
-                foreach (var item in Model.Professores)
-                {
-                    <option value="@item.CdPessoa">@item.Nome</option>
+        <div class="form-control divborder">
+            <label>Professor</label>
+            <select class="form-select form-select select" aria-label="Default select example" name="CdProfessor">
+                @{
+                    foreach (var item in Model.Professores)
+                    {
+                        <option value="@item.CdPessoa">@item.Nome</option>
+                    }
                 }
-            }
-        </select><br>
+            </select>
+        </div>
+        </br>
 
-        <select class="form-select form-select" aria-label="Default select example" name="CdTurma">
-            @{
-                foreach (var item in Model.Turmas)
-                {
-                    <option value="@item.CdTurma">@item.NomeDaTurma</option>
+        <div class="form-control divborder">
+            <label>Turma</label>
+            <select class="form-select form-select select" aria-label="Default select example" name="CdTurma">
+                @{
+                    foreach (var item in Model.Turmas)
+                    {
+                        <option value="@item.CdTurma">@item.NomeDaTurma</option>
+                    }
                 }
-            }
-        </select><br>
+            </select>
+        </div>
+        </br>
 
-        <select class="form-select form-select" aria-label="Default select example" name="CdDisciplina">
-            @{
-                foreach (var item in Model.Disciplinas)
-                {
-                    <option value="@item.CdDisciplina">@item.NomeDisciplina</option>
+        <div class="form-control divborder">
+            <label>Disciplina</label>
+            <select class="form-select form-select select" aria-label="Default select example" name="CdDisciplina">
+                @{
+                    foreach (var item in Model.Disciplinas)
+                    {
+                        <option value="@item.CdDisciplina">@item.NomeDisciplina</option>
+                    }
                 }
-            }
-        </select><br>
+            </select>
+        </div>
+        </br>
 
-        <select class="form-select form-select" aria-label="Default select example" name="Ano">
-            @{
-                for (int i = 1980 ; i < 2101 ; i++)
-                {
-                    string year = i.ToString() + "0101";
-                    DateTime Ano = DateTime.ParseExact(year,"yyyyMMdd", null);
-                    <option value="@Ano">@i</option>
+        <div class="form-control divborder">
+             <label>Ano</label>
+            <select class="form-select form-select select" aria-label="Default select example" name="Ano">
+                @{
+                    for (int i = 1980 ; i < 2101 ; i++)
+                    {
+                        string year = i.ToString() + "0101";
+                        DateTime Ano = DateTime.ParseExact(year,"yyyyMMdd", null);
+                        <option value="@Ano">@i</option>
+                    }
                 }
-            }
-        </select><br>
+            </select>
+        </div>
+        </br>
 
          <button class="btn btn-primary" style="margin-top: 20px">Enviar</button>
     </form>

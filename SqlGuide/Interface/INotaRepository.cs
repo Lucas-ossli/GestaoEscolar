@@ -7,4 +7,5 @@ public interface INotaRepository
     public List<Nota> Search(int? cdTurmaProfessor);
     public Nota SearchOne(int? cdAluno, int? cdTurmaProfessor);
     public void Update(Nota nota);
+    public Nota SearchForAluno(int? cdNota);
 }

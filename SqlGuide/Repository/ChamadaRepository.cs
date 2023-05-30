@@ -139,4 +139,68 @@ public class ChamadaRepository : IChamadaRepository
             }
         }
     }
+
+    public Comparecimento PresencaFalta(List<Aproveitamento> alunos)
+    {
+        Comparecimento comparecimento = new Comparecimento();
+        var sql = @"select 
+                        count(*) total,
+                        pf.idPessoa, 
+                        sum(cast(CH.presenca1 as decimal) ) PRESENCA1,
+                        sum(cast(CH.presenca2 as decimal) ) PRESENCA2,
+                        sum(cast(CH.presenca3 as decimal) ) PRESENCA3, 
+                        sum(cast(CH.presenca4 as decimal) ) PRESENCA4 
+                    from chamada CH
+
+                        inner join Pessoas pf 
+                        on pf.idPessoa = CH.alunoId
+
+                    where CH.aulaId in(select AU.idAula from aula AU
+                                        where AU.TurmaProfessorId = @cdTurmaProfessor)
+                    And CH.alunoId = @CdAluno
+                    group by pf.idPessoa ";
+
+        foreach(var item in alunos)
+        {
+            using(var cn = new SqlConnection(ConnectionStr))
+            {    
+                cn.Open();
+                using(var cmd = new SqlCommand(sql, cn))
+                {
+                    cmd.Parameters.Add(new SqlParameter(){
+                    ParameterName = "@CdAluno",
+                    Value = item.CdAluno
+                    });
+
+                    cmd.Parameters.Add(new SqlParameter(){
+                    ParameterName = "@cdTurmaProfessor",
+                    Value = item.cdTurmaProfessor
+                    });
+
+                    using (var dr = cmd.ExecuteReader())
+                    {
+                        int presencas = 0;
+                        int total= 0 ;
+                        while(dr.Read())
+                        {
+                            presencas = presencas + Convert.ToInt32(dr["PRESENCA1"]);
+                            presencas = presencas + Convert.ToInt32(dr["PRESENCA2"]);
+                            presencas = presencas + Convert.ToInt32(dr["PRESENCA3"]);
+                            presencas = presencas + Convert.ToInt32(dr["PRESENCA4"]);
+                            total = Convert.ToInt32(dr["total"]);
+                        }
+
+                        int faltas = (total * 4) - presencas ;
+
+                        item.Presencas = presencas;
+                        item.Faltas = faltas;
+                    }
+                }
+            }
+        }
+        
+
+        return comparecimento;
+
+    }
 }

@@ -213,4 +213,47 @@ public class NotaRepository : INotaRepository
             }
         }
     }
+
+    public Nota SearchForAluno(int? cdNota)
+    {
+        Nota aluno = new Nota();
+
+        var sql = @"select 
+                        pf.nome,
+                        nt.nota1,
+                        nt.nota2,
+                        nt.nota3,
+                        nt.nota4 
+                    from nota nt 
+                        inner join Pessoas pf
+                        on pf.idPessoa = nt.alunoId
+                    where nt.idNota = @cdNota";
+        
+         using(var cn = new SqlConnection(ConnectionStr))
+        {    
+            cn.Open();
+            using(var cmd = new SqlCommand(sql, cn))
+            {
+                cmd.Parameters.Add(new SqlParameter(){
+                ParameterName = "@cdNota",
+                Value = cdNota
+                });
+
+                using (var dr = cmd.ExecuteReader())
+                {
+                    while(dr.Read())
+                    {
+                        aluno.Aluno = dr["nome"].ToString();
+                        aluno.Nota1 =  Convert.ToInt32(dr["nota1"]);
+                        aluno.Nota2 =  Convert.ToInt32(dr["nota2"]);
+                        aluno.Nota3 =  Convert.ToInt32(dr["nota3"]);
+                        aluno.Nota4 =  Convert.ToInt32(dr["nota4"]);
+                    }
+                }
+            }
+        }
+
+        return aluno;
+
+    }
 }
