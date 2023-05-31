@@ -8,8 +8,6 @@ go
 use GerenciamentoEscolarBD
 go
 
-------------------- Cria��o das tabelas -------------------
--- Cargos
 create table Cargos
 (
 	idCargo int primary key identity,
@@ -33,19 +31,6 @@ create table Pessoas
 )                                                         
 go
 
---insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('H.Dezani', '12345678910-12', GETDATE(), 2)	
---insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('Djalma', '43215678910-12', GETDATE(), 2)	
---insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('Valeria', '09875678910-12', GETDATE(), 2)	
-
---insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('Lucas', '09126542112-12', GETDATE(), 3)	
---insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('Leonardo', '09115978910-12', GETDATE(), 3)	
---insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('Pedro', '65423412653-12', GETDATE(), 3)	
---insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('Jean', '65428412653-12', GETDATE(), 3)	
---insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('Karen', '65423414453-12', GETDATE(), 3)	
---insert into Pessoas (nome, cpf, dataNascimento, cargoId) values('Christian', '94728412653-12', GETDATE(), 3)	
---go
-
-
 create table Cadastros
 (
 	email	 varchar(max),
@@ -54,12 +39,11 @@ create table Cadastros
 )
 go
 
-
 create table Disciplinas
 (
 	idDisciplina	 int		  primary key identity,
 	nomeDisciplina	 varchar(50)  not null,
-	cargaHoraria	 int		  not null check(cargaHoraria in(40,80))
+	cargaHoraria	 int		  not null 
 )
 go
 
@@ -70,7 +54,6 @@ create table Turma
 	Descricao		 varchar(max)   null
 )
 go
-
 
 create table TurmaProfessor
 (
@@ -93,7 +76,6 @@ create table aula
 )
 go			
 
-
 create table chamada
 (
 	idChamada		int primary key identity,
@@ -107,7 +89,6 @@ create table chamada
 )
 go
 
-
 create table nota
 (
 	idNota int primary key identity,
@@ -120,7 +101,6 @@ create table nota
 	constraint unique_nt unique (turmaProfessorId, alunoId)
 )
 go
-
 
 create table Aproveitamentos
 (

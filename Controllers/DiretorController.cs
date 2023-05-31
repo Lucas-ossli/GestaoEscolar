@@ -12,16 +12,20 @@ public class DiretorController : Controller
     private readonly ITurmaRepository _turmaRepository;
     private readonly IDisciplinaRepository _disciplinaRepository;
     private readonly ITurmaProfessorRepository _turmaProfRepository;
+    
+    private readonly ICadastroRepository _cadastroRepository;
 
     public DiretorController(   IPessoaRepository pessoaRepository,
                                 ITurmaRepository turmaRepository,
                                 IDisciplinaRepository disciplinaRepository,
-                                ITurmaProfessorRepository turmaProfRepository)
+                                ITurmaProfessorRepository turmaProfRepository,
+                                ICadastroRepository cadastroRepository)
     {
         _pessoaRepository = pessoaRepository;
         _turmaRepository = turmaRepository;
         _disciplinaRepository = disciplinaRepository;
         _turmaProfRepository = turmaProfRepository;
+        _cadastroRepository=cadastroRepository;
     }    
 
     public IActionResult Index()
@@ -34,9 +38,10 @@ public class DiretorController : Controller
     }
 
     [HttpPost]
-    public IActionResult CadastroPessoa(Pessoa professor)
+    public IActionResult CadastroPessoa(Pessoa pessoa)
     {
-        _pessoaRepository.Insert(professor);
+        _pessoaRepository.Insert(pessoa);
+        _cadastroRepository.create(pessoa);
         return View();
     }
 

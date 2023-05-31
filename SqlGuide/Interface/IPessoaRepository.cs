@@ -9,4 +9,5 @@ public interface IPessoaRepository
     public List<Pessoa> SearchAllProfessores();
 
     public List<Aluno> SearchAllAlunos();
+    public int getIdPessoa(string cpf);
 }

@@ -12,20 +12,38 @@ public class PessoaRepository : IPessoaRepository
 
     public void Insert(Pessoa pessoa)
     {
-        var sql = @"insert into 
+        string sql;
+
+        if(pessoa.Telefone != null)
+        {
+            sql = @"insert into 
                     Pessoas (
-                                nome, 
-                                cpf, 
-                                dataNascimento,
-                                telefone,
-                                cargoId) 
+                            nome, 
+                            cpf, 
+                            dataNascimento,
+                            telefone,
+                            cargoId) 
                     values  (
-                                @nome,
-                                @cpf,
-                                @dataNascimento,
-                                @telefone, 
-                                @CdCargo)	
-        ";
+                            @nome,
+                            @cpf,
+                            @dataNascimento,
+                            @telefone, 
+                            @CdCargo)";
+        }else
+        {
+           sql = @"insert into 
+                    Pessoas (
+                            nome, 
+                            cpf, 
+                            dataNascimento,
+                            cargoId) 
+                    values  (
+                            @nome,
+                            @cpf,
+                            @dataNascimento,
+                            @CdCargo)";
+        }
+        
 
         using(var cn = new SqlConnection(ConnectionStr))
         {
@@ -44,9 +62,13 @@ public class PessoaRepository : IPessoaRepository
                 ParameterName = "@dataNascimento",
                 Value = pessoa.DataNascimento});
 
-                cmd.Parameters.Add(new SqlParameter(){
-                ParameterName = "@telefone",
-                Value = pessoa.Telefone});
+                if(pessoa.Telefone != null)
+                {
+                    cmd.Parameters.Add(new SqlParameter(){
+                    ParameterName = "@telefone",
+                    Value = pessoa.Telefone});
+                }
+               
 
                 cmd.Parameters.Add(new SqlParameter(){
                 ParameterName = "@CdCargo",
@@ -55,6 +77,8 @@ public class PessoaRepository : IPessoaRepository
                 cmd.ExecuteNonQuery();
             }
         }
+
+        pessoa.CdPessoa = getIdPessoa(pessoa.Cpf);
 
     }
 
@@ -122,4 +146,31 @@ public class PessoaRepository : IPessoaRepository
 
         return alunos;
     }
+
+    public int getIdPessoa(string cpf)
+    {
+        
+        var sql = @"select pf.idPessoa from pessoas pf where pf.cpf = @cpf";
+        int cdPessoa = 0;
+        using(var cn = new SqlConnection(ConnectionStr))
+        {    
+            cn.Open();
+            using(var cmd = new SqlCommand(sql, cn))
+            {
+                cmd.Parameters.Add(new SqlParameter(){
+                ParameterName = "@cpf",
+                Value = cpf
+                });
+                using (var dr = cmd.ExecuteReader())
+                {
+                    while(dr.Read())
+                    {
+                        cdPessoa = Convert.ToInt32(dr["idPessoa"]);
+                    }
+                }
+            }
+        }
+        return cdPessoa;
+    }
+
 }
