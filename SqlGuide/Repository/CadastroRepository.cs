@@ -47,7 +47,7 @@ public class CadastroRepository : ICadastroRepository
                     select count(*) as ocorrencia from Pessoas pf where pf.nome = @nome";
 
         int ocorrencia = 0;
-          using(var cn = new SqlConnection(ConnectionStr))
+        using(var cn = new SqlConnection(ConnectionStr))
         {    
             cn.Open();
             using(var cmd = new SqlCommand(sql, cn))
@@ -67,5 +67,52 @@ public class CadastroRepository : ICadastroRepository
         }
 
         return ocorrencia;
+    }
+
+    public Cadastro VerifyLogin(Cadastro cadastro)
+    {
+        Cadastro.Login = false;
+
+        string sql = @"select 
+                            pf.idPessoa, 
+                            pf.cargoId 
+                        from Cadastros ca
+
+                            inner join Pessoas pf
+                            on pf.idPessoa = ca.pessoaId
+
+                        where 
+                        ca.email = @email
+                        and ca.senha = @senha";
+        
+        using(var cn = new SqlConnection(ConnectionStr))
+        {    
+            cn.Open();
+            using(var cmd = new SqlCommand(sql, cn))
+            {
+                cmd.Parameters.Add(new SqlParameter(){
+                ParameterName = "@email",
+                Value = cadastro.Email
+                });
+
+                cmd.Parameters.Add(new SqlParameter(){
+                ParameterName = "@senha",
+                Value = cadastro.Senha
+                });
+
+
+                using (var dr = cmd.ExecuteReader())
+                {
+                    while(dr.Read())
+                    {
+                        Cadastro.CdPessoa = Convert.ToInt32(dr["idPessoa"]);
+                        Cadastro.CdCargo = Convert.ToInt32(dr["cargoId"]);
+                        Cadastro.Login = true;
+                    }
+                }
+            }
+        }
+
+        return cadastro;
     }
 }

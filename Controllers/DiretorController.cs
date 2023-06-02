@@ -28,54 +28,89 @@ public class DiretorController : Controller
         _cadastroRepository=cadastroRepository;
     }    
 
+    public bool VerifyCargo()
+    {
+        if(Cadastro.CdCargo == Cargo.Diretor.GetHashCode())
+        {
+            return true;
+        }
+        return false;
+    }
+    
     public IActionResult Index()
     {
-        return View();
+        if(VerifyCargo())
+        {
+            return View(); 
+        }
+        return RedirectToAction("Login", "Home");
+        
     }
     public IActionResult CadastroPessoa()
     {
-        return View();
+        if(VerifyCargo())
+        {
+            return View();
+        }
+        return RedirectToAction("Login", "Home");
     }
 
     [HttpPost]
     public IActionResult CadastroPessoa(Pessoa pessoa)
     {
-        _pessoaRepository.Insert(pessoa);
-        _cadastroRepository.create(pessoa);
-        return View();
+        if(VerifyCargo())
+        {
+            _pessoaRepository.Insert(pessoa);
+            _cadastroRepository.create(pessoa);
+            return View();
+        }
+        return RedirectToAction("Login", "Home");
     }
 
     public IActionResult CadastroTurma()
     {
-        return View();
+        if(VerifyCargo())
+        {
+            return View();
+        }
+        return RedirectToAction("Login", "Home");
     }
 
     [HttpPost]
     public IActionResult CadastroTurma(Turma turma)
     {
-        _turmaRepository.Insert(turma);
-        return View();
+        if(VerifyCargo())
+        {
+            _turmaRepository.Insert(turma);
+            return View();
+        }
+        return RedirectToAction("Login", "Home");       
     }
 
     public IActionResult CadastroDisciplina()
     {
-        return View();
+        if(VerifyCargo())
+        {
+            return View(); 
+        }
+        return RedirectToAction("Login", "Home");
     }
 
     [HttpPost]
     public IActionResult CadastroDisciplina(Disciplina disciplina)
     {
-
-        if(ModelState.IsValid){
-            _disciplinaRepository.Insert(disciplina);
-            return RedirectToAction("index");
+        if(VerifyCargo())
+        {    
+            if(ModelState.IsValid){
+                _disciplinaRepository.Insert(disciplina);
+                return RedirectToAction("index");
+            }
+            else
+            {
+            return View(disciplina);
+            }
         }
-        else
-        {
-           return View(disciplina);
-        }
-
-        
+        return RedirectToAction("Login", "Home");
     }
 
     [HttpGet]
@@ -83,43 +118,59 @@ public class DiretorController : Controller
     [Route("Diretor/CadastroTurmaProfessor")]
     public IActionResult CadastroTurmaProfessor(bool ativo = true)
     {
-        var model = new TurmaProfessor2();
-        model.Disciplinas = _disciplinaRepository.SearchAll();
-        model.Professores = _pessoaRepository.SearchAllProfessores();
-        model.Turmas = _turmaRepository.SearchAllTurmas();
-        model.TurmaProfessores = _turmaProfRepository.SearchAll(ativo);
-        return View(model);
+        if(VerifyCargo())
+        {
+            var model = new TurmaProfessor2();
+            model.Disciplinas = _disciplinaRepository.SearchAll();
+            model.Professores = _pessoaRepository.SearchAllProfessores();
+            model.Turmas = _turmaRepository.SearchAllTurmas();
+            model.TurmaProfessores = _turmaProfRepository.SearchAll(ativo);
+            return View(model);
+        }
+        return RedirectToAction("Login", "Home");
     }
 
     [HttpPost]
     public IActionResult CadastroTurmaProfessor(TurmaProfessor2 model)
     {
-        _turmaProfRepository.Insert(model);
-        return RedirectToAction("CadastroTurmaProfessor");
+        if(VerifyCargo())
+        {
+            _turmaProfRepository.Insert(model);
+            return RedirectToAction("CadastroTurmaProfessor");   
+        }
+        return RedirectToAction("Login", "Home");
     }
 
     [Route("Diretor/ExcluirTP/{cdTurmaProfessor}")]
     public IActionResult ExcluirTP(int cdTurmaProfessor)
     {
-        //TODO - TERMINAR
-        _turmaProfRepository.InativarTP(cdTurmaProfessor);
-        return RedirectToAction("CadastroTurmaProfessor");
+        if(VerifyCargo())
+        {
+            _turmaProfRepository.InativarTP(cdTurmaProfessor);
+            return RedirectToAction("CadastroTurmaProfessor");    
+        }
+        return RedirectToAction("Login", "Home");
     }
 
     [Route("Diretor/InativarTP/{cdTurmaProfessor}")]
     public IActionResult InativarTP(int cdTurmaProfessor)
     {
-        //TODO - TERMINAR
-        _turmaProfRepository.InativarTP(cdTurmaProfessor);
-        return RedirectToAction("CadastroTurmaProfessor");
+        if(VerifyCargo())
+        {
+           _turmaProfRepository.InativarTP(cdTurmaProfessor);
+            return RedirectToAction("CadastroTurmaProfessor");    
+        }
+        return RedirectToAction("Login", "Home");
     }
 
     [Route("Diretor/AtivarTP/{cdTurmaProfessor}")]
     public IActionResult AtivarTP(int cdTurmaProfessor)
     {
-        _turmaProfRepository.AtivarTP(cdTurmaProfessor);
-        return RedirectToAction("CadastroTurmaProfessor");
+        if(VerifyCargo())
+        {
+            _turmaProfRepository.AtivarTP(cdTurmaProfessor);
+            return RedirectToAction("CadastroTurmaProfessor");     
+        }
+        return RedirectToAction("Login", "Home");
     }
-
-
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using GestaoEscolar.Models;
 using SqlGuide.Interface;
+using Models;
 
 namespace GestaoEscolar.Controllers;
 
@@ -24,7 +25,7 @@ public class AlunoController : Controller
     public IActionResult Aproveitamento()
     {
         //Pegar o cdaluno pelo login
-        var model = _aproveitamentoRepository.AlunoInfo(3);
+        var model = _aproveitamentoRepository.AlunoInfo(Cadastro.CdPessoa);
         var x = _chamadaRepository.PresencaFalta(model);        
         return View(model);
     }

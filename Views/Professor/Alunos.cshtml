@@ -5,7 +5,14 @@
 }
 
 @{
-    Layout= "/Views/Professor/_Layout.cshtml";
+    if(Cadastro.CdCargo == Cargo.Diretor.GetHashCode())
+    {
+        Layout= "/Views/Diretor/_Layout.cshtml";
+    }
+    else
+    {
+        Layout= "/Views/Professor/_Layout.cshtml";
+    }
 }
 
 @* @{var x = DateTime.Now.ToString("dd/MM/yyyy") ; }  *@
@@ -26,7 +33,6 @@
                 {
                     <tr>
                         <td name="Nome">@item.Nome</td>
-                        <td><a class="btn btn-primary" href="#">Detalhes</a></td>
                     </tr>
 
                 }

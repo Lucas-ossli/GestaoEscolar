@@ -15,11 +15,6 @@ create table Cargos
 )
 go
 
-insert into Cargos (cargo) values('Diretor') --1
-insert into Cargos (cargo) values('Professor') -- 2
-insert into Cargos (cargo) values('Aluno') -- 3
-go
-
 create table Pessoas
 (
 	idPessoa		int			 primary key identity, 
@@ -112,3 +107,19 @@ create table Aproveitamentos
 )
 go
 
+
+
+--Inserts Obrigatórios
+
+--Cargo
+insert into Cargos (cargo) values('Diretor') --1
+insert into Cargos (cargo) values('Professor') -- 2
+insert into Cargos (cargo) values('Aluno') -- 3
+go
+
+--Diretor
+insert into Pessoas(nome,cpf,dataNascimento,cargoId) values('Diretor','12345678',GETDATE(),1)
+go
+insert into Cadastros (email,senha,pessoaId) values('diretor@gestaoescolar.com', '12345678', 1)
+go
+--

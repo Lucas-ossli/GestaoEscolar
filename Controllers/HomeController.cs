@@ -23,17 +23,53 @@ public class HomeController : Controller
 
     public IActionResult Login()
     {
+
+         if(Cadastro.Login)
+        {
+            switch (Cadastro.CdCargo)
+            {
+                case 1:
+                    return RedirectToAction("Index", "Diretor");
+                break;
+                case 2:
+                    return RedirectToAction("TurmasProfessor", "Professor", new{cdTurmaProfessor = Cadastro.CdPessoa});
+                break;
+
+                case 3:
+                    return RedirectToAction("Aproveitamento", "Aluno");
+                break;
+            }        
+        }
+
         return View();
     }
 
    [HttpPost]
     public IActionResult Login(Cadastro cadastro)
     {
-        // if(_cadastroRepository.VerifyLogin(cadastro))
-        // {
-        //     //var logingeral =_pessoaRepository.Search(cadastro.CdPessoa);// guarda o cargo dele no sistema;
-        //     //redirect to firsts page
-        // }
+        if(!Cadastro.Login)
+        {
+            _cadastroRepository.VerifyLogin(cadastro);
+        }
+        
+        if(Cadastro.Login)
+        {
+            switch (Cadastro.CdCargo)
+            {
+                case 1:
+                    return RedirectToAction("Index", "Diretor");
+                break;
+                case 2:
+                    return RedirectToAction("TurmasProfessor", "Professor", new{cdTurmaProfessor = Cadastro.CdPessoa});
+                break;
+
+                case 3:
+                    return RedirectToAction("Aproveitamento", "Aluno");
+                break;
+            }        
+        }
+        ViewBag.Error = "Usuário/Senha inválidos";
+        
         return View();
     }
 }

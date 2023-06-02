@@ -54,7 +54,14 @@
 </head>
 <body>
   <div class="container">
+
     <h2>Login</h2>
+    </br>
+    @if(ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
     <form method="Post">
       <div class="form-group">
         <label for="username">Usuário:</label>
