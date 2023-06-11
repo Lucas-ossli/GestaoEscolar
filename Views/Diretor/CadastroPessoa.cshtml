@@ -13,18 +13,19 @@
 <div class="container">
 
     <h1>Cadastro de Pessoa</h1>
+    <div asp-validation-summary="All"></div>
     <form method="POST" class="form-group">
-        <label for="Nome">Nome:</label>
-        <input class="form-control" type="text" name="Nome">
+        <label asp-for="Nome">Nome:</label>
+        <input class="form-control" type="text" asp-for="Nome">
 
-        <label for="Cpf">CPF:</label>
-        <input class="form-control" type="text" name="Cpf">
+        <label asp-for="Cpf">CPF:</label>
+        <input class="form-control" type="text" asp-for="Cpf">
         
-        <label for="Telefone">Telefone:</label>
-        <input class="form-control" type="text" name="Telefone">
+        <label asp-for="Telefone">Telefone:</label>
+        <input class="form-control" type="text" asp-for="Telefone">
 
-        <label for="DataNascimento">Data de Nascimento:</label>
-        <input class="form-control" type="date" name="DataNascimento">
+        <label asp-for="DataNascimento">Data de Nascimento:</label>
+        <input class="form-control" type="date" asp-for="DataNascimento">
 
         <label for="CdCargo">Cargo:</label>
         <select class="form-select form-select" aria-label="Default select example" name="CdCargo">

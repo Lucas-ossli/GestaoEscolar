@@ -8,4 +8,5 @@ public interface ITurmaProfessorRepository
     public void Insert(TurmaProfessor2 model);
     public void InativarTP(int? cdTurmaProfessor);
     public void AtivarTP(int? cdTurmaProfessor);
+    public bool HasTurma(TurmaProfessor2 TurmaProfessor);
 }

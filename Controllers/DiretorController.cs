@@ -60,9 +60,16 @@ public class DiretorController : Controller
     {
         if(VerifyCargo())
         {
-            _pessoaRepository.Insert(pessoa);
-            _cadastroRepository.create(pessoa);
-            return View();
+            if(ModelState.IsValid){
+            
+                _pessoaRepository.Insert(pessoa);
+                _cadastroRepository.create(pessoa);
+                return View();
+            
+            }
+
+            return View(pessoa);
+          
         }
         return RedirectToAction("Login", "Home");
     }
@@ -81,8 +88,11 @@ public class DiretorController : Controller
     {
         if(VerifyCargo())
         {
-            _turmaRepository.Insert(turma);
-            return View();
+            if(ModelState.IsValid){
+                _turmaRepository.Insert(turma);
+                return View();
+            }
+            return View(turma);
         }
         return RedirectToAction("Login", "Home");       
     }
@@ -107,7 +117,7 @@ public class DiretorController : Controller
             }
             else
             {
-            return View(disciplina);
+                return View(disciplina);
             }
         }
         return RedirectToAction("Login", "Home");
@@ -120,23 +130,39 @@ public class DiretorController : Controller
     {
         if(VerifyCargo())
         {
-            var model = new TurmaProfessor2();
-            model.Disciplinas = _disciplinaRepository.SearchAll();
-            model.Professores = _pessoaRepository.SearchAllProfessores();
-            model.Turmas = _turmaRepository.SearchAllTurmas();
-            model.TurmaProfessores = _turmaProfRepository.SearchAll(ativo);
+            ViewBag.HasTurma= false;
+            var model = searchAllTP(ativo);
             return View(model);
         }
         return RedirectToAction("Login", "Home");
     }
 
+
+    public TurmaProfessor2 searchAllTP(bool ativo = true)
+    {
+        var model = new TurmaProfessor2();
+        model.Disciplinas = _disciplinaRepository.SearchAll();
+        model.Professores = _pessoaRepository.SearchAllProfessores();
+        model.Turmas = _turmaRepository.SearchAllTurmas();
+        model.TurmaProfessores = _turmaProfRepository.SearchAll(ativo);
+
+        return model;
+    }
     [HttpPost]
     public IActionResult CadastroTurmaProfessor(TurmaProfessor2 model)
     {
         if(VerifyCargo())
         {
-            _turmaProfRepository.Insert(model);
-            return RedirectToAction("CadastroTurmaProfessor");   
+            var hasTp = _turmaProfRepository.HasTurma(model);
+            if(ModelState.IsValid && !hasTp){
+                _turmaProfRepository.Insert(model);
+                return RedirectToAction("CadastroTurmaProfessor");   
+            }
+
+            ViewBag.HasTurma= true;
+            model = searchAllTP();
+            return View(model);
+            
         }
         return RedirectToAction("Login", "Home");
     }

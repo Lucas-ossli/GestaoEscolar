@@ -14,13 +14,65 @@
     {
         padding-top: 10px;
         border-top-width: 15px;
+        border-color: #1b98f7;
         width: 50%;
         margin: auto;
     }
+
 </style>
+
+
+@{
+    ViewBag.HeadOne = "";
+    ViewBag.Resposta = false; 
+    if(Model.Nota1 > 0 && Model.Nota2 > 0 && Model.Nota3 > 0 && Model.Nota4 > 0)
+    {
+        ViewBag.Resposta = true;
+        float notaGeral = Model.Nota1 + Model.Nota2 + Model.Nota3 + Model.Nota4;
+
+        if(notaGeral/4 > 5.99)
+        {
+            <style>
+                .divborder
+                {
+                    padding-top: 10px;
+                    border-top-width: 15px;
+                    border-color: #16e607;
+                    padding-bottom: 20px;
+                    margin: auto;
+                }
+            </style>
+           ViewBag.HeadOne = "Aprovado(a)";
+        }
+        else{
+
+            <style>
+                .divborder
+                {
+                    padding-top: 10px;
+                    border-top-width: 15px;
+                    border-color: red;
+                    padding-bottom: 20px;
+                    margin: auto;
+                }
+            </style>
+
+            ViewBag.HeadOne="Reprovado(a)";
+        }
+    }
+
+}
 
 <div class="container">
     <h1 class="divborder">@Model.Aluno</h1>
+
+    @{
+        if(ViewBag.Resposta)
+        {
+            <h1 class="divborder">@ViewBag.HeadOne</h1>;
+        }
+    }
+
     </br>
     
     <div class="form-control divborder">

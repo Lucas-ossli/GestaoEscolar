@@ -30,10 +30,29 @@
 <div class="container">
 
     <h1>Vinculo de Turma/Disciplina por Professor</h1>
+
+    @{
+        if(ViewBag.HasTurma)
+        {
+            <h1 style="color:red"> Está Turma Professor Já existe!</h1>
+
+            <style>
+                .divborder
+                {
+                    padding-top: 10px;
+                    border-top-width: 15px;
+                    border-color: #f71b1b;
+                    padding-bottom: 20px;
+                    margin: auto;
+                }
+            </style>
+        }
+    }
+    <div asp-validation-summary="All"></div>
     <form method="POST" class="form-group">
         <div class="form-control divborder">
             <label>Professor</label>
-            <select class="form-select form-select select" aria-label="Default select example" name="CdProfessor">
+            <select class="form-select form-select select" aria-label="Default select example" asp-for="CdProfessor">
                 @{
                     foreach (var item in Model.Professores)
                     {
@@ -46,7 +65,7 @@
 
         <div class="form-control divborder">
             <label>Turma</label>
-            <select class="form-select form-select select" aria-label="Default select example" name="CdTurma">
+            <select class="form-select form-select select" aria-label="Default select example" asp-for="CdTurma">
                 @{
                     foreach (var item in Model.Turmas)
                     {
@@ -59,7 +78,7 @@
 
         <div class="form-control divborder">
             <label>Disciplina</label>
-            <select class="form-select form-select select" aria-label="Default select example" name="CdDisciplina">
+            <select class="form-select form-select select" aria-label="Default select example" asp-for="CdDisciplina">
                 @{
                     foreach (var item in Model.Disciplinas)
                     {
@@ -72,7 +91,7 @@
 
         <div class="form-control divborder">
              <label>Ano</label>
-            <select class="form-select form-select select" aria-label="Default select example" name="Ano">
+            <select class="form-select form-select select" aria-label="Default select example" asp-for="Ano">
                 @{
                     for (int i = 1980 ; i < 2101 ; i++)
                     {

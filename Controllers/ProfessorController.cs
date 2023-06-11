@@ -94,7 +94,7 @@ public class ProfessorController : Controller
         if(VerifyCargo())
         {
             _chamadaRepository.Update(model as List<Chamada>);
-            return RedirectToAction("Chamada", new { cdAula = model.First().CdAula});
+            return RedirectToAction("Aulas", new { cdTurmaProfessor = _aulaRepository.GetTurmaProfessor(model.First().CdAula)});
         }
         return RedirectToAction("Login", "Home");
     }
@@ -136,12 +136,14 @@ public class ProfessorController : Controller
     {
         if(VerifyCargo())
         {
-            //Verificar se o model tem o cdTP
-            _aulaRepository.Insert(model);
-            model = _aulaRepository.SearchOne(model);
-            var alunos = _aproveitamentoRepository.SearchAlunos(model.CdTurmaProfessor);
-            _chamadaRepository.Insert(alunos, model.CdAula);
-            return RedirectToAction("Aulas", new { CdTurmaProfessor = model.CdTurmaProfessor });
+            if(ModelState.IsValid){
+                _aulaRepository.Insert(model);
+                model = _aulaRepository.SearchOne(model);
+                var alunos = _aproveitamentoRepository.SearchAlunos(model.CdTurmaProfessor);
+                _chamadaRepository.Insert(alunos, model.CdAula);
+                return RedirectToAction("Aulas", new { CdTurmaProfessor = model.CdTurmaProfessor });
+            }
+            return View(model);
         }
         return RedirectToAction("Login", "Home");
     }

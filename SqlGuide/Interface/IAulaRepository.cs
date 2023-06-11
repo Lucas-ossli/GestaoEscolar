@@ -7,4 +7,6 @@ public interface IAulaRepository
     List<Aula> Search(int? cdTurmaProfessor);
     Aula SearchOne(Aula model);
 
+    public int GetTurmaProfessor(int cdAula);
+
 }

@@ -130,5 +130,39 @@ public class AulaRepository : IAulaRepository
 
         
     }
+
+    public int GetTurmaProfessor(int cdAula){
+
+        var sql = @"select top 1 al.TurmaProfessorId 
+                    from aula al 
+                    where idAula = 3";
+
+        int cdTurmaProfessor = 0;
+
+        using(var cn = new SqlConnection(ConnectionStr))
+        {    
+            cn.Open();
+            using(var cmd = new SqlCommand(sql, cn))
+            {
+                cmd.Parameters.Add(new SqlParameter(){
+                ParameterName = "@cdAula",
+                Value = cdAula
+                });
+
+                using (var dr = cmd.ExecuteReader())
+                {
+                    if(dr.HasRows)
+                    {
+                        while(dr.Read()){
+                            cdTurmaProfessor = Convert.ToInt32(dr["TurmaProfessorId"]);
+                        }
+                    }
+                    
+                }
+            }
+        }
+
+        return cdTurmaProfessor;
+    }
 }
 

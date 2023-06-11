@@ -20,12 +20,13 @@
 <div class="container">
 
     <h1>Cadastro de Aula</h1>
+    <div asp-validation-summary="All"></div>
     <form asp-action="CadastrarAula" method="POST" class="form-group">
         <label for="Descricao">Descricao</label>
-        <input class="form-control" type="text" name="Descricao">
+        <input class="form-control" type="text" asp-for="Descricao">
 
         <label for="Data">Data</label>
-        <input class="form-control" type="date" name="Data">
+        <input class="form-control" type="date" asp-for="Data">
         
         <input type="hidden" value="@Model.CdTurmaProfessor" asp-for="CdTurmaProfessor">
         

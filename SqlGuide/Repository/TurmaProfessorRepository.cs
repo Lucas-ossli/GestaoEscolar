@@ -231,4 +231,48 @@ public class TurmaProfessorRepository : ITurmaProfessorRepository
             }
         }
     }
+
+    public bool HasTurma(TurmaProfessor2 TurmaProfessor)
+    {
+        var sql = @"select * from TurmaProfessor tp 
+                        where 
+                        tp.ano = @ano 
+                        and tp.TurmaId = @cdTurma
+                        and tp.ProfessorId = @cdProfessor
+                        and tp.DisciplinaId = @cdDisciplina";
+        
+        using(var cn = new SqlConnection(ConnectionStr))
+        {
+            cn.Open();
+            using(var cmd = new SqlCommand(sql, cn))
+            {
+                cmd.Parameters.Add(new SqlParameter(){
+                ParameterName = "@ano",
+                Value = TurmaProfessor.Ano});
+
+                cmd.Parameters.Add(new SqlParameter(){
+                ParameterName = "@cdTurma",
+                Value = TurmaProfessor.CdTurma});
+
+                cmd.Parameters.Add(new SqlParameter(){
+                ParameterName = "@cdProfessor",
+                Value = TurmaProfessor.CdProfessor});
+
+                cmd.Parameters.Add(new SqlParameter(){
+                ParameterName = "@cdDisciplina",
+                Value = TurmaProfessor.CdDisciplina});
+
+                using(var dr = cmd.ExecuteReader())
+                {
+                    if(dr.HasRows)
+                    {
+                        return true;
+                    }
+                }
+            }
+            
+        }
+
+        return false;
+    }
 }

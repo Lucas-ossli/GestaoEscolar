@@ -105,10 +105,10 @@ public class NotaRepository : INotaRepository
                             Aluno = dr["nome"].ToString(),
                             CdAluno = Convert.ToInt32(dr["alunoId"]),
                             CdTurmaProfessor = cdTurmaProfessor,
-                            Nota1 =  Convert.ToInt32(dr["nota1"]),
-                            Nota2 =  Convert.ToInt32(dr["nota2"]),
-                            Nota3 =  Convert.ToInt32(dr["nota3"]),
-                            Nota4 =  Convert.ToInt32(dr["nota4"])
+                            Nota1 =  float.Parse(dr["nota1"].ToString()),
+                            Nota2 =  float.Parse(dr["nota2"].ToString()),
+                            Nota3 =  float.Parse(dr["nota3"].ToString()),
+                            Nota4 =  float.Parse(dr["nota4"].ToString()),
                         };
 
                         alunos.Add(aluno);

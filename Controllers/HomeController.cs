@@ -16,6 +16,15 @@ public class HomeController : Controller
         _cadastroRepository = cadastroRepository;
         _pessoaRepository = pessoaRepository;
     }
+
+    public IActionResult LogOut()
+    {
+        Cadastro.Login = false;
+        Cadastro.CdCargo = 0;
+        Cadastro.CdPessoa = 0;
+        return RedirectToAction("Login");
+    }
+
     public IActionResult Index()
     {
         return View();
@@ -65,6 +74,9 @@ public class HomeController : Controller
 
                 case 3:
                     return RedirectToAction("Aproveitamento", "Aluno");
+                break;
+                default:
+                    return RedirectToAction("Login", "Home");
                 break;
             }        
         }

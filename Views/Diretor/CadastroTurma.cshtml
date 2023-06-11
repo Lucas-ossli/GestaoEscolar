@@ -14,14 +14,14 @@
 <div class="container">
 
     <h1>Cadastro de Turma</h1>
+    <div asp-validation-summary="All"></div>
     <form method="POST" class="form-group">
-        <label for="NomeDaTurma">Nome:</label>
-        <input class="form-control" type="text" name="NomeDaTurma">
+        <label asp-for="NomeDaTurma">Nome:</label>
+        <input class="form-control" type="text" asp-for="NomeDaTurma">
 
-        <label for="Descricao">Descricao:</label>
-        <input class="form-control" type="text" name="Descricao">
-        
-         <button class="btn btn-primary" style="margin-top: 20px">Enviar</button>
+        <label asp-for="Descricao">Descricao:</label>
+        <input class="form-control" type="text" asp-for="Descricao">
+        <button class="btn btn-primary" style="margin-top: 20px">Enviar</button>
     </form>
 
 
