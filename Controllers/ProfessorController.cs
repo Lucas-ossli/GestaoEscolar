@@ -45,7 +45,6 @@ public class ProfessorController : Controller
     [Route("Professor/TurmasProfessor/{cdProfessor}/{ativo}")]
     [Route("Professor/TurmasProfessor/{cdProfessor}")]
     [Route("Professor/TurmasProfessor")]
-    //TODO - Adicionar o cdProfessor do professor que vira no Identity
     public IActionResult TurmasProfessor(int cdProfessor, bool ativo = true)
     {       
         if(VerifyCargo())
@@ -155,7 +154,7 @@ public class ProfessorController : Controller
         if(VerifyCargo())
         {
             AlunoSubmit model = new AlunoSubmit();
-            model.Alunos = _pessoaRepository.SearchAllAlunos();//TODO(TROCAR) :procurar apenas os alunos que não estão nesta cdTurmaProfessor
+            model.Alunos = _pessoaRepository.SearchAllAlunos((int)cdTurmaProfessor);
             return View(model);
         }
         return RedirectToAction("Login", "Home");       

@@ -115,22 +115,26 @@ public class PessoaRepository : IPessoaRepository
     }
 
     
-    public List<Aluno> SearchAllAlunos()
+    public List<Aluno> SearchAllAlunos(int cdTurmaProfessor)
     {
        var alunos = new List<Aluno>();
 
         var sql = @"select 
-                        pf.idPessoa,
-                        pf.nome 
-                    from Pessoas pf 
-                    where cargoId = 3";
+                        pf.idPessoa, 
+                        PF.nome 
+                        from Pessoas PF
+                    where pf.cargoId = 3
+                    and pf.idPessoa not in( select ap.alunoId from Aproveitamentos ap where ap.turmaProfessorId = @cdTurmaProfessor)";
 
-        
         using(var cn = new SqlConnection(ConnectionStr))
         {    
             cn.Open();
             using(var cmd = new SqlCommand(sql, cn))
             {
+                cmd.Parameters.Add(new SqlParameter(){
+                ParameterName = "@cdTurmaProfessor",
+                Value = cdTurmaProfessor});
+
                 using (var dr = cmd.ExecuteReader())
                 {
                     while(dr.Read())

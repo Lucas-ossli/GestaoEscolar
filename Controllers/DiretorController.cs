@@ -61,11 +61,20 @@ public class DiretorController : Controller
         if(VerifyCargo())
         {
             if(ModelState.IsValid){
-            
-                _pessoaRepository.Insert(pessoa);
-                _cadastroRepository.create(pessoa);
-                return View();
-            
+                try
+                {
+                    _pessoaRepository.Insert(pessoa);
+                    _cadastroRepository.create(pessoa);
+                    
+                    ViewBag.SuccessRegister = true;
+                    return View(pessoa);
+                }
+                catch (System.Exception ex)
+                {
+                    ViewBag.SuccessRegister = false;
+                    return View(pessoa);
+                }
+               
             }
 
             return View(pessoa);
@@ -90,7 +99,7 @@ public class DiretorController : Controller
         {
             if(ModelState.IsValid){
                 _turmaRepository.Insert(turma);
-                return View();
+                return RedirectToAction("Index", "Diretor");
             }
             return View(turma);
         }

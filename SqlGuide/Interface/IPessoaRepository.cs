@@ -8,6 +8,6 @@ public interface IPessoaRepository
 
     public List<Pessoa> SearchAllProfessores();
 
-    public List<Aluno> SearchAllAlunos();
+    public List<Aluno> SearchAllAlunos(int cdTurmaProfessor);
     public int getIdPessoa(string cpf);
 }

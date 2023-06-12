@@ -33,7 +33,7 @@
                     foreach(var item in Model)
                 {
                     <tr>
-                        <td>@item.Data</td>
+                        <td>@item.Data.ToString("dd/MM/yyyy")</td>
                         <td>@item.Descricao</td>
                         <td><a class="btn btn-primary" href="/Professor/Chamada/@item.CdAula">Chamada</a></td>
                     </tr>

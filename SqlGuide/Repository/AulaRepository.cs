@@ -135,7 +135,7 @@ public class AulaRepository : IAulaRepository
 
         var sql = @"select top 1 al.TurmaProfessorId 
                     from aula al 
-                    where idAula = 3";
+                    where idAula = @cdAula";
 
         int cdTurmaProfessor = 0;
 

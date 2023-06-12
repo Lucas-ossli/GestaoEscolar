@@ -37,5 +37,20 @@
          <button class="btn btn-primary" style="margin-top: 20px">Enviar</button>
     </form>
 
+    @{
+        if(ViewBag.SuccessRegister != null)
+        {
+            if(ViewBag.SuccessRegister)
+            {
+                <h1 class="alert alert-success" role="alert">Sucesso ao cadastrar @Model.Nome!</h1>
+            }
+            else
+            {
+                <h1 class="alert alert-danger" role="alert">Erro ao cadastrar @Model.Nome, tente Novamente!</h1>
+            }
+        }
+        
+    }
+
 
 </div>
