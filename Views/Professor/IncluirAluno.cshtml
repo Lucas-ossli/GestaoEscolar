@@ -26,17 +26,34 @@
         
         <select class="form-select form-select" aria-label="Default select example" name="CdPessoa">
             @{
-                foreach (var item in Model.Alunos)
+                if(Model.Alunos != null && Model.Alunos.Count > 0)
                 {
-                    <option value="@item.CdPessoa">@item.Nome</option>
+                    foreach (var item in Model.Alunos)
+                    {
+                        <option value="@item.CdPessoa">@item.Nome</option>
+                    }
+
+                    
+                }else
+                {
+                    <option value="0">Não Há aluno disponível para cadastro</option>
                 }
+               
             }
             
             <input asp-for="CdTurmaProfessor" style="display:none">
 
-        </select><br>
+        </select>
 
-         <button class="btn btn-primary" style="margin-top: 20px">Enviar</button>
+         
+        @{  
+            if(Model.Alunos != null && Model.Alunos.Count > 0)
+            {
+                <button class="btn btn-primary" style="margin-top: 20px">Enviar</button>
+            }
+        }
+
+
     </form>
     
 </div>
