@@ -15,7 +15,7 @@ public class CadastroRepository : ICadastroRepository
                                     values(@email, @senha, @cdPessoa)";
 
         var ocorrencia = checkDoubleName(pessoa.Nome);
-        var email = pessoa.Nome.Replace(" ","") + (ocorrencia > 0 ? (ocorrencia+1).ToString() : "" ) + "@gestaoescolar.com";
+        var email = (pessoa.Nome.Replace(" ","") + (ocorrencia > 1 ? ocorrencia.ToString() : "" ) + "@gestaoescolar.com").ToLower();
         var senha = pessoa.DataNascimento.ToString("ddMMyyyy");
         
 
